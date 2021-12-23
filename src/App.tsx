@@ -1,12 +1,15 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import { Grid, GridCell } from "@react-md/utils";
+import { Typography } from "@react-md/typography";
 
 const App = () => {
   return (
-    <section>
-      <h1>Hello There...</h1>
-    </section>
+    <Grid>
+      <GridCell colSpan={12}>
+        <Typography type="headline-1">Hello There...</Typography>
+      </GridCell>
+    </Grid>
   );
-}
+};
 
 export default App;
