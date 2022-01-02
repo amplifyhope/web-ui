@@ -1,14 +1,14 @@
-import React from "react";
-import { Typography } from "@react-md/typography";
-import { Button } from "@react-md/button";
+import React from 'react';
+import { Typography } from '@react-md/typography';
+import { Button } from '@react-md/button';
 
-import "./styles/app.scss";
+import './styles/app.scss';
 
 const App = () => {
   return (
     <section>
       <section>
-        <Typography type="headline-4">Contained</Typography>
+        <Typography type="headline-4">Containeds</Typography>
         <Button theme="primary" themeType="contained">
           Primary
         </Button>
