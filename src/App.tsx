@@ -8,7 +8,7 @@ const App = () => {
   return (
     <section>
       <section>
-        <Typography type="headline-4">Containeds</Typography>
+        <Typography type="headline-4">Contained</Typography>
         <Button theme="primary" themeType="contained">
           Primary
         </Button>
