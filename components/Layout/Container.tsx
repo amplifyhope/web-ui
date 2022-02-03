@@ -1,7 +1,7 @@
-import { HTMLAttributes, ReactElement } from "react";
-import { Grid } from "@react-md/utils";
+import { HTMLAttributes, ReactElement } from 'react';
+import { Grid } from '@react-md/utils';
 
-export const  Container = ({
+export const Container = ({
   children,
   ...props
 }: HTMLAttributes<HTMLDivElement>): ReactElement => {
@@ -10,4 +10,4 @@ export const  Container = ({
       {children}
     </Grid>
   );
-}
+};

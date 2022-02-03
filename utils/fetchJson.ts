@@ -1,5 +1,5 @@
-import Router from "next/router";
-import { alertService } from "./alerts";
+import Router from 'next/router';
+import { alertService } from './alerts';
 
 class ResponseError extends Error {
   public response: any;
@@ -9,13 +9,13 @@ class ResponseError extends Error {
 export default async function fetchJson(
   path: string,
   args: any,
-  modelName: string = "",
+  modelName: string = '',
   redirectOnCreate = true
 ) {
   const alertOptions = {
-    id: "global-alerts",
+    id: 'global-alerts',
     autoClose: true,
-    keepAfterRouteChange: false,
+    keepAfterRouteChange: false
   };
 
   try {
@@ -23,7 +23,7 @@ export default async function fetchJson(
     if (response.status === 204) {
       if (modelName && args.body) {
         alertService.success(`${modelName} Saved`, alertOptions);
-      } else if (modelName && args.method === "DELETE") {
+      } else if (modelName && args.method === 'DELETE') {
         alertService.success(`${modelName} Removed`, alertOptions);
       }
       return true;
@@ -33,12 +33,12 @@ export default async function fetchJson(
       if (modelName) {
         alertService.success(`${modelName} created`, alertOptions);
       }
-      const url = response.headers.get("Location");
+      const url = response.headers.get('Location');
       if (url && redirectOnCreate) {
         return Router.push(url);
       }
       if (url && !redirectOnCreate) {
-        return url.split("/").pop();
+        return url.split('/').pop();
       }
     }
 

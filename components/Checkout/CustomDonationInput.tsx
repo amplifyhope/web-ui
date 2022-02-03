@@ -1,6 +1,6 @@
-import { ChangeEvent } from "react";
-import { TextField } from "@react-md/form";
-import { formatAmountForDisplay } from "utils/stripe-helpers";
+import { ChangeEvent } from 'react';
+import { TextField } from '@react-md/form';
+import { formatAmountForDisplay } from 'utils/stripe-helpers';
 
 type CustomDonationInputProps = {
   name: string;
@@ -9,7 +9,7 @@ type CustomDonationInputProps = {
   max: number;
   currency: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  className?: string
+  className?: string;
 };
 
 export const CustomDonationInput = ({
@@ -23,8 +23,9 @@ export const CustomDonationInput = ({
 }: CustomDonationInputProps) => {
   return (
     <label>
-      Custom donation amount ({formatAmountForDisplay(min, currency)} - {formatAmountForDisplay(max, currency)})
-      <TextField 
+      Custom donation amount ({formatAmountForDisplay(min, currency)} -{' '}
+      {formatAmountForDisplay(max, currency)})
+      <TextField
         id="price"
         className={className}
         type="number"
@@ -36,4 +37,4 @@ export const CustomDonationInput = ({
       />
     </label>
   );
-}
+};

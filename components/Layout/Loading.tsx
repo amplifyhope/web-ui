@@ -7,7 +7,7 @@ export const Loading = () => {
     <Container>
       <Grid>
         <GridCell colSpan={12}>
-          <CircularProgress id="loading" color='primary' />
+          <CircularProgress id="loading" color="primary" />
         </GridCell>
       </Grid>
     </Container>

@@ -1,5 +1,5 @@
-import { Subject } from "rxjs";
-import { filter } from "rxjs/operators";
+import { Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 export const alertService = {
   onAlert,
@@ -8,7 +8,7 @@ export const alertService = {
   info,
   warn,
   alert,
-  clear,
+  clear
 };
 export interface AlertSubject {
   id?: string;
@@ -17,18 +17,18 @@ export interface AlertSubject {
 }
 
 export const AlertType = {
-  Success: "Success",
-  Error: "Error",
-  Info: "Info",
-  Warning: "Warning",
+  Success: 'Success',
+  Error: 'Error',
+  Info: 'Info',
+  Warning: 'Warning'
 };
 
 const alertSubject = new Subject();
-const defaultId = "default-alert";
+const defaultId = 'default-alert';
 
 function onAlert(id: string = defaultId) {
   //@ts-ignore
-  return alertSubject.asObservable().pipe(filter((x) => x && x.id === id));
+  return alertSubject.asObservable().pipe(filter(x => x && x.id === id));
 }
 
 function success(message, options) {
