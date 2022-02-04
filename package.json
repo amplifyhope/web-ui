@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "format": "prettier --write .",
     "start": "next start",
     "lint": "npm run lint:eslint && npm run lint:madge",
