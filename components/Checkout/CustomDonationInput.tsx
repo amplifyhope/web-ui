@@ -1,6 +1,7 @@
 import { ChangeEvent } from 'react';
 import { TextField } from '@react-md/form';
-import { formatAmountForDisplay } from 'utils/stripe-helpers';
+import { Typography } from '@react-md/typography';
+import { AttachMoneySVGIcon } from '@react-md/material-icons';
 
 type CustomDonationInputProps = {
   name: string;
@@ -17,16 +18,18 @@ export const CustomDonationInput = ({
   value,
   min,
   max,
-  currency,
   onChange,
   className
 }: CustomDonationInputProps) => {
   return (
     <label>
-      Custom donation amount ({formatAmountForDisplay(min, currency)} -{' '}
-      {formatAmountForDisplay(max, currency)})
+      <Typography type="headline-5">
+        Specify the amount you would like to donate
+      </Typography>
       <TextField
         id="price"
+        theme="underline"
+        leftChildren={<AttachMoneySVGIcon />}
         className={className}
         type="number"
         value={value}
