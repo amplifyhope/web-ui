@@ -1,0 +1,25 @@
+@import 'styles/_variables';
+
+.errorMessage {
+  background-color: $rmd-theme-error;
+  color: $rmd-white-base;
+  text-align: center;
+}
+
+.successMessage {
+  background-color: $rmd-theme-secondary;
+  color: $rmd-white-base;
+  text-align: center;
+}
+
+.warnMessage {
+  background-color: $rmd-amber-a-100;
+  color: $rmd-amber-900;
+  text-align: center;
+}
+
+.infoMessage {
+  background-color: $rmd-blue-grey-100;
+  color: $rmd-black-base;
+  text-align: center;
+}
