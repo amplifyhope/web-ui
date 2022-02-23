@@ -28,8 +28,8 @@ export default async function handler(
             quantity: 1
           }
         ],
-        success_url: `${req.headers.origin}/?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${req.headers.origin}/?canceled=true`
+        success_url: `${req.headers.origin}/result/{CHECKOUT_SESSION_ID}`,
+        cancel_url: req.headers.origin as string
       };
 
       const checkoutSession: Stripe.Checkout.Session =
