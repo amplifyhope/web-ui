@@ -27,7 +27,7 @@ export const CheckoutForm = () => {
     setLoading(true);
     const amount: number = +input.customDonation;
 
-    const response = await fetchJson('/api/checkout/session', {
+    const response = await fetchJson('/api/checkout-sessions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ amount })
