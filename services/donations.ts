@@ -1,5 +1,5 @@
 import fetchJson from 'utils/fetchJson';
-import { Donation, Prisma } from '@prisma/client';
+import { Donation } from '@prisma/client';
 
 export type DonationCreateView = {
   id?: string;
@@ -20,7 +20,7 @@ export const listDonationsByUserId = async (
 };
 
 export const createDonation = async (
-  donation: Prisma.DonationCreateView,
+  donation: DonationCreateView,
   userId: string
 ): Promise<string> => {
   const donationId = await fetchJson(
