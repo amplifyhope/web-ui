@@ -1,6 +1,14 @@
 import fetchJson from 'utils/fetchJson';
 import { Donation, Prisma } from '@prisma/client';
 
+export type DonationCreateView = {
+  id?: string;
+  recurring: boolean;
+  amount: number;
+  date?: Date | string;
+  recurring_type?: string | null;
+};
+
 export const listDonationsByUserId = async (
   userId: string
 ): Promise<Donation[]> => {
