@@ -5,21 +5,35 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === 'GET') {
+  if (req.method === 'POST') {
     const { email } = req.body;
-    const foundUser = await prisma.user.findUnique({
-      where: {
-        email: email as string
-      }
-    });
+    try {
+      const foundUser = await prisma.user.findUnique({
+        where: {
+          email: email
+        }
+      });
 
-    if (foundUser) {
-      res.status(302).json(foundUser);
-    } else {
-      res.status(404).json({ error: 'User not found' });
+      if (foundUser) {
+        res
+          .status(302)
+          .json(`User with email: ${foundUser.email} already exists`);
+      }
+
+      const userId = await prisma.user.create({
+        data: { ...req.body },
+        select: {
+          id: true
+        }
+      });
+
+      res.status(201).json(userId);
+    } catch (error) {
+      console.warn(error);
+      res.status(500).json(error);
     }
   } else {
-    res.setHeader('Allow', 'GET');
+    res.setHeader('Allow', ['POST']);
     res.status(405).end('Method Not Allowed');
   }
 }
