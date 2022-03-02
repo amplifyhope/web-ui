@@ -1,0 +1,6 @@
+**/node_modules/*
+**/out/*
+**/.next/*
+**/.husky/*
+**/public/sw.js
+**/public/workbox-*.js

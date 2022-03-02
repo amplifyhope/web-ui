@@ -1,0 +1,17 @@
+@use '@react-md/theme/dist/color-palette' as *;
+@forward 'react-md' with (
+  $rmd-theme-primary: #00a19a,
+  $rmd-theme-secondary: #00a148,
+  $rmd-theme-warning: #cd030d,
+  $rmd-theme-error: #cd030d,
+  $rmd-theme-light: true,
+  $rmd-theme-primary-text-on-dark-color: #ffffff,
+  $rmd-theme-primary-text-on-light-color: #79777a,
+  $rmd-theme-dark-elevation: 'prefers-color-scheme',
+  $rmd-utils-auto-dense: false,
+  $rmd-progress-background-color: #00a19a,
+  $rmd-progress-color: #034d29
+);
+$rmd-typography-font-family: 'Montserrat', 'Roboto', sans-serif;
+$rmd-theme-bg-light: rgba(11, 136, 76, 0.08);
+$rmd-theme-secondary-bg-color: #9e9e9e;
