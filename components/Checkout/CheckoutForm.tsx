@@ -63,12 +63,17 @@ export const CheckoutForm = () => {
                   theme="primary"
                   themeType="outline"
                 >
-                  Donate{' '}
-                  {formatAmountForDisplay(
-                    +input.customDonation,
-                    config.CURRENCY
-                  )}{' '}
-                  {loading && <Loading />}
+                  {!loading ? (
+                    <>
+                      Donate{' '}
+                      {formatAmountForDisplay(
+                        +input.customDonation,
+                        config.CURRENCY
+                      )}{' '}
+                    </>
+                  ) : (
+                    <Loading />
+                  )}
                 </Button>
               </Form>
             </CardContent>

@@ -1,3 +1,8 @@
+# v1.0.1
+
+- Add favicon
+- Update Result-id page
+
 # v1.0.0
 
 - Initial release
