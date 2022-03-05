@@ -2,6 +2,7 @@
 
 - Add favicon
 - Update Result-id page
+- Fix duplicate customer during checkout
 
 # v1.0.0
 

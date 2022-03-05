@@ -8,18 +8,27 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   typescript: true
 });
 
+interface RequestBody {
+  amount: number;
+  email: string;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const amount: number = req.body.amount;
+    const { amount, email }: RequestBody = req.body;
     try {
       if (!(amount >= MIN_AMOUNT && amount <= MAX_AMOUNT)) {
         throw new Error('Invalid amount.');
       }
+
+      const customer = await stripe.customers.list({ email });
       const params: Stripe.Checkout.SessionCreateParams = {
         submit_type: 'donate',
+        customer: customer.data[0] ? customer.data[0].id : undefined,
+        customer_email: !customer.data[0] ? email : undefined,
         line_items: [
           {
             name: 'Donate to Amplify Hope',
