@@ -1,18 +1,50 @@
-import { useState, ChangeEventHandler, FormEventHandler } from 'react';
-import { Form } from '@react-md/form';
+import {
+  useState,
+  useMemo,
+  useCallback,
+  ChangeEventHandler,
+  FormEventHandler
+} from 'react';
+import {
+  Form,
+  TextFieldWithMessage,
+  useTextField,
+  ErrorChangeHandler
+} from '@react-md/form';
 import { Button } from '@react-md/button';
 import { Card, CardContent } from '@react-md/card';
 import { Grid, GridCell } from '@react-md/utils';
+import { Typography } from '@react-md/typography';
+import { EmailSVGIcon } from '@react-md/material-icons';
 import { CustomDonationInput, Loading, Container } from 'components';
 import { formatAmountForDisplay } from 'utils/stripe-helpers';
 import getStripe from 'utils/get-stripejs';
 import fetchJson from 'utils/fetchJson';
 import * as config from '../../config';
 
+type FieldId = string;
+type ErrorRecord = Record<FieldId, boolean | undefined>;
+
 export const CheckoutForm = () => {
+  const [errors, setErrors] = useState<ErrorRecord>({});
   const [loading, setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>('');
   const [input, setInput] = useState({
     customDonation: Math.round(config.MIN_AMOUNT).toFixed(2).toString()
+  });
+
+  const errored = useMemo(() => Object.values(errors).some(Boolean), [errors]);
+  const onErrorChange = useCallback<ErrorChangeHandler>(
+    (id, error) => setErrors(prevErrors => ({ ...prevErrors, [id]: error })),
+    []
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_email, emailFieldProps] = useTextField({
+    id: 'email-field-hook',
+    required: true,
+    pattern: '^[w-.]+@([w-]+.)+[w-]{2,4}$',
+    onErrorChange
   });
 
   const handleInputChange: ChangeEventHandler<HTMLInputElement> = event => {
@@ -30,7 +62,7 @@ export const CheckoutForm = () => {
     const response = await fetchJson('/api/checkout-sessions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount })
+      body: JSON.stringify({ amount, email })
     });
 
     const stripe = await getStripe();
@@ -48,6 +80,21 @@ export const CheckoutForm = () => {
           <Card>
             <CardContent>
               <Form onSubmit={handleSubmit}>
+                <Typography type="headline-5">
+                  Support Amplify Hope by Donating
+                </Typography>
+                <TextFieldWithMessage
+                  {...emailFieldProps}
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  theme="outline"
+                  type="email"
+                  rightChildren={<EmailSVGIcon />}
+                  label="Email"
+                  name="email"
+                  placeholder="user@example.com"
+                  // style={{ marginBottom: '2rem' }}
+                />
                 <CustomDonationInput
                   name="customDonation"
                   value={input.customDonation}
@@ -59,7 +106,7 @@ export const CheckoutForm = () => {
                 <Button
                   type="submit"
                   style={{ marginTop: '2rem', width: '100%' }}
-                  disabled={loading}
+                  disabled={loading || errored}
                   theme="primary"
                   themeType="outline"
                 >
