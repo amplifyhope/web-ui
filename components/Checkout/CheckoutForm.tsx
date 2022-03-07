@@ -9,7 +9,8 @@ import {
   Form,
   TextFieldWithMessage,
   useTextField,
-  ErrorChangeHandler
+  ErrorChangeHandler,
+  Radio
 } from '@react-md/form';
 import { Button } from '@react-md/button';
 import { Card, CardContent } from '@react-md/card';
@@ -29,6 +30,7 @@ export const CheckoutForm = () => {
   const [errors, setErrors] = useState<ErrorRecord>({});
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
+  const [mode, setMode] = useState<string>('one-time');
   const [input, setInput] = useState({
     customDonation: Math.round(config.MIN_AMOUNT).toFixed(2).toString()
   });
@@ -62,7 +64,7 @@ export const CheckoutForm = () => {
     const response = await fetchJson('/api/checkout-sessions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ amount, email })
+      body: JSON.stringify({ amount, email, mode })
     });
 
     const stripe = await getStripe();
@@ -72,7 +74,7 @@ export const CheckoutForm = () => {
     console.warn(error.message);
     setLoading(false);
   };
-
+  
   return (
     <Container>
       <Grid>
@@ -83,6 +85,21 @@ export const CheckoutForm = () => {
                 <Typography type="headline-5">
                   Support Amplify Hope by Donating
                 </Typography>
+                <section onChange={e => setMode(e.target.value)}>
+                  <Radio
+                    id="one-time"
+                    name="mode"
+                    label="One-Time Payment"
+                    value="one-time"
+                    defaultChecked
+                  />
+                  <Radio
+                    id="recurring"
+                    name="mode"
+                    label="Recurring Payment"
+                    value="recurring"
+                  />
+                </section>
                 <TextFieldWithMessage
                   {...emailFieldProps}
                   value={email}
