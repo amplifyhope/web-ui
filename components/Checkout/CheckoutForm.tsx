@@ -74,7 +74,7 @@ export const CheckoutForm = () => {
     console.warn(error.message);
     setLoading(false);
   };
-  
+
   return (
     <Container>
       <Grid>
