@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { formatAmountForStripe } from 'utils/stripe-helpers';
 import { CURRENCY, MIN_AMOUNT, MAX_AMOUNT } from 'config';
+import { DonationRequestBody } from 'common/types';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -8,18 +9,12 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   typescript: true
 });
 
-interface RequestBody {
-  amount: number;
-  email: string;
-  interval: Stripe.PriceListParams.Recurring.Interval;
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const { amount, email, interval }: RequestBody = req.body;
+    const { amount, email, interval }: DonationRequestBody = req.body;
     const formattedAmount = formatAmountForStripe(amount, CURRENCY);
     let price: Stripe.Price | undefined;
 
@@ -30,7 +25,7 @@ export default async function handler(
 
       const priceParams: Stripe.PriceListParams = {
         product: process.env.STRIPE_RECURRING_PRODUCT_ID,
-        lookup_keys: [formattedAmount.toString()],
+        lookup_keys: [formattedAmount.toString() + interval?.charAt(0)],
         recurring: { interval }
       };
 
@@ -42,8 +37,8 @@ export default async function handler(
           currency: CURRENCY,
           product: process.env.STRIPE_RECURRING_PRODUCT_ID,
           unit_amount: formattedAmount,
-          lookup_key: formattedAmount.toString(),
-          recurring: { interval }
+          lookup_key: formattedAmount.toString() + interval?.charAt(0),
+          recurring: { interval: interval! }
         };
 
         price = await stripe.prices.create(priceCreateParams);
