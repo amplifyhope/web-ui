@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 import { TextField } from '@react-md/form';
 import { AttachMoneySVGIcon } from '@react-md/material-icons';
 
@@ -8,7 +8,7 @@ type CustomDonationInputProps = {
   min: number;
   max: number;
   currency: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (event: ChangeEvent<any>) => void;
   className?: string;
 };
 
