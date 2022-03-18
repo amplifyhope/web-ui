@@ -1,3 +1,7 @@
+# v1.0.2
+
+- Add recurring payment option
+
 # v1.0.1
 
 - Add favicon
