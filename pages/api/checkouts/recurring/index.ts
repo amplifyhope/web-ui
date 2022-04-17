@@ -14,7 +14,8 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const { amount, email, interval }: DonationRequestBody = req.body;
+    const { amount, email, interval, interval_count }: DonationRequestBody =
+      req.body;
     const formattedAmount = formatAmountForStripe(amount, CURRENCY);
     let price: Stripe.Price | undefined;
 
@@ -38,7 +39,7 @@ export default async function handler(
           product: process.env.STRIPE_RECURRING_PRODUCT_ID,
           unit_amount: formattedAmount,
           lookup_key: formattedAmount.toString() + interval?.charAt(0),
-          recurring: { interval: interval! }
+          recurring: { interval: interval!, interval_count: interval_count }
         };
 
         price = await stripe.prices.create(priceCreateParams);
