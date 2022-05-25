@@ -5,7 +5,6 @@ import { Card, CardContent, CardActions } from '@react-md/card';
 import { TextField, Select, FormMessage, ListboxOption } from '@react-md/form';
 import { EmailSVGIcon, AttachMoneySVGIcon } from '@react-md/material-icons';
 import { Grid, GridCell } from '@react-md/utils';
-import Stripe from 'stripe';
 import { Loading } from 'components';
 import { formatAmountForDisplay } from 'utils/stripe-helpers';
 import getStripe from 'utils/get-stripejs';
@@ -14,7 +13,7 @@ import {
   OneTimeDonationSchema,
   RecurringDonationSchema
 } from 'utils/validation-schema';
-import { DonationRequestBody } from 'common/types';
+import { DonationRequestBody, IntervalOptions } from 'common/types';
 import * as config from '../../config';
 
 import styles from './CheckoutForm.module.scss';
@@ -22,12 +21,6 @@ import styles from './CheckoutForm.module.scss';
 type CheckoutFormProps = {
   isRecurring: boolean;
 };
-
-enum IntervalOptions {
-  month = 'month',
-  quarter = 'quarter',
-  year = 'year'
-}
 
 type FormValues = {
   email: string;
@@ -68,7 +61,7 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
             initialValues={{
               email: '',
               amount: Math.round(config.MIN_AMOUNT).toFixed(2).toString(),
-              interval
+              interval: IntervalOptions.month
             }}
             validationSchema={
               isRecurring ? RecurringDonationSchema : OneTimeDonationSchema
@@ -79,12 +72,10 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
             ) => {
               setLoading(true);
               const amount: number = +formValues.amount;
-              const stripeInterval: Stripe.Price.Recurring.Interval =
-                formValues.interval === IntervalOptions.year ? 'year' : 'month';
               const requestBody: DonationRequestBody = {
                 email: formValues.email,
                 amount,
-                interval: isRecurring ? stripeInterval : undefined,
+                interval: isRecurring ? interval : undefined,
                 interval_count: intervalCount
               };
 
@@ -137,7 +128,6 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
                           label="Amount"
                           name="amount"
                           placeholder={config.MIN_AMOUNT.toString()}
-                          // type="number"
                           min={config.MIN_AMOUNT}
                           max={config.MAX_AMOUNT}
                           onChange={props.handleChange}
@@ -152,7 +142,7 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
                           <Select
                             id="interval"
                             options={intervalOptions}
-                            value={props.values.interval}
+                            value={interval}
                             onChange={handleChange}
                           />
                         )}
