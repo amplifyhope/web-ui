@@ -47,6 +47,10 @@ export default async function handler(
     let paymentIntent;
 
     switch (event.type) {
+      case 'invoice.created':
+        const invoice = event.data.object as Stripe.Invoice;
+        await stripe.invoices.finalizeInvoice(invoice.id);
+        break;
       case 'payment_intent.succeeded':
         paymentIntent = event.data.object as Stripe.PaymentIntent;
         console.log(`💸 Payment Intent Status: ${paymentIntent.status}`);
@@ -66,7 +70,7 @@ export default async function handler(
         break;
     }
 
-    res.json({ received: true });
+    res.status(200).json({ received: true });
   } else {
     res.setHeader('Allow', 'POST');
     res.status(405).end('Method Not Allowed');
