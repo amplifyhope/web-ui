@@ -33,8 +33,9 @@ const Result = props => {
   return (
     <Container>
       <Typography type="headline-5">
-        Thank you for your donation of{' '}
-        {formatAmountForDisplayFromStripe(session?.amount_total!, CURRENCY)}
+        Thank you for your{' '}
+        {formatAmountForDisplayFromStripe(session?.amount_total!, CURRENCY)}{' '}
+        {session?.mode === 'subscription' ? 'recurring' : null} donation.
       </Typography>
       <div>
         <Link href="/">

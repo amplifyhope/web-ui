@@ -15,7 +15,7 @@ export default function MyApp({
         <Favicon />
       </Head>
       <AppLayout>
-        <div className="app">
+        <div>
           <Component {...pageProps} />
         </div>
       </AppLayout>
