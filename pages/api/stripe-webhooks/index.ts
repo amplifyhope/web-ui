@@ -35,7 +35,7 @@ export default async function handler(
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown Error';
       if (err! instanceof Error) {
-        return console.log(err);
+        return console.log(`⛔ Error: ${err}`);
       }
       console.log(`⛔ Error message: ${errorMessage}`);
       res.status(400).send(`Webhook Error: ${errorMessage}`);
@@ -49,7 +49,10 @@ export default async function handler(
     switch (event.type) {
       case 'invoice.created':
         const invoice = event.data.object as Stripe.Invoice;
-        await stripe.invoices.finalizeInvoice(invoice.id);
+        console.log(`🚀 Invoice created because: ${invoice.billing_reason}`);
+        if (invoice.billing_reason !== 'subscription_create') {
+          await stripe.invoices.finalizeInvoice(invoice.id);
+        }
         break;
       case 'payment_intent.succeeded':
         paymentIntent = event.data.object as Stripe.PaymentIntent;
@@ -63,7 +66,7 @@ export default async function handler(
         break;
       case 'charge.succeeded':
         const charge = event.data.object as Stripe.Charge;
-        console.log(`💵 Charge id: ${charge.id}`);
+        console.log(`💵 Charge succeeded: ${charge.id}`);
         break;
       default:
         console.log(`🤷‍♂️ Unhandled event type: ${event.type}`);
