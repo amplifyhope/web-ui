@@ -13,6 +13,10 @@ export default function MyApp({
       <Head>
         <title>Amplify Hope</title>
         <Favicon />
+        <meta
+          name="facebook-domain-verification"
+          content="ihwx5q1c8c0dzkf11ebv0kfc1dvmj3"
+        />
       </Head>
       <AppLayout>
         <div>
