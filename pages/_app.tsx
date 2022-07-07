@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import type { AppProps } from 'next/app';
 import { Favicon } from 'components';
 import Head from 'next/head';
-import '../styles/app.scss';
+import '../styles/app.css';
 
 export default function MyApp({
   Component,

@@ -10,8 +10,6 @@ import {
 import { DonationRequestBody, IntervalOptions } from 'common/types';
 import * as config from '../../config';
 
-import styles from './CheckoutForm.module.scss';
-
 type CheckoutFormProps = {
   isRecurring: boolean;
 };
@@ -88,7 +86,7 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
       >
         {props => {
           return (
-            <Form className={styles.checkoutForm}>
+            <Form>
               <div>
                 <input
                   id="email"
