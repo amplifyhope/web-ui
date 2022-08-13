@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+import * as yup from 'yup'
 
 export const OneTimeDonationSchema = yup
   .object({
@@ -8,7 +8,7 @@ export const OneTimeDonationSchema = yup
       .required('Required'),
     amount: yup.number().required()
   })
-  .required();
+  .required()
 
 export const RecurringDonationSchema = yup
   .object({
@@ -19,4 +19,4 @@ export const RecurringDonationSchema = yup
     amount: yup.number().required(),
     interval: yup.string().required()
   })
-  .required();
+  .required()

@@ -1,5 +1,5 @@
-import { Subject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Subject } from 'rxjs'
+import { filter } from 'rxjs/operators'
 
 export const alertService = {
   onAlert,
@@ -9,11 +9,11 @@ export const alertService = {
   warn,
   alert,
   clear
-};
+}
 export interface AlertSubject {
-  id?: string;
-  message?: string;
-  type?: string;
+  id?: string
+  message?: string
+  type?: string
 }
 
 export const AlertType = {
@@ -21,36 +21,36 @@ export const AlertType = {
   Error: 'Error',
   Info: 'Info',
   Warning: 'Warning'
-};
+}
 
-const alertSubject = new Subject();
-const defaultId = 'default-alert';
+const alertSubject = new Subject()
+const defaultId = 'default-alert'
 
 function onAlert(id: string = defaultId) {
   //@ts-ignore
-  return alertSubject.asObservable().pipe(filter(x => x && x.id === id));
+  return alertSubject.asObservable().pipe(filter(x => x && x.id === id))
 }
 
 function success(message, options) {
-  alert({ ...options, type: AlertType.Success, message });
+  alert({ ...options, type: AlertType.Success, message })
 }
 
 function error(message, options) {
-  alert({ ...options, type: AlertType.Error, message });
+  alert({ ...options, type: AlertType.Error, message })
 }
 
 function info(message, options) {
-  alert({ ...options, type: AlertType.Info, message });
+  alert({ ...options, type: AlertType.Info, message })
 }
 
 function warn(message, options) {
-  alert({ ...options, type: AlertType.Warning, message });
+  alert({ ...options, type: AlertType.Warning, message })
 }
 
 function alert(alert: AlertSubject) {
-  alertSubject.next(alert);
+  alertSubject.next(alert)
 }
 
 function clear(id: string = defaultId) {
-  alertSubject.next({ id });
+  alertSubject.next({ id })
 }

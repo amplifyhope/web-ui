@@ -1,8 +1,8 @@
-import { ReactElement } from 'react';
-import type { AppProps } from 'next/app';
-import { Favicon } from 'components';
-import Head from 'next/head';
-import '../styles/globals.css';
+import { ReactElement } from 'react'
+import type { AppProps } from 'next/app'
+import { Favicon } from 'components'
+import Head from 'next/head'
+import '../styles/globals.css'
 
 export default function MyApp({
   Component,
@@ -14,13 +14,13 @@ export default function MyApp({
         <title>Amplify Hope</title>
         <Favicon />
         <meta
-          name="facebook-domain-verification"
-          content="ihwx5q1c8c0dzkf11ebv0kfc1dvmj3"
+          name='facebook-domain-verification'
+          content='ihwx5q1c8c0dzkf11ebv0kfc1dvmj3'
         />
       </Head>
       <div>
         <Component {...pageProps} />
       </div>
     </div>
-  );
+  )
 }
