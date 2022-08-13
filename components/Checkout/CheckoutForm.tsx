@@ -42,7 +42,7 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
   };
 
   return (
-    <div>
+    <div className="w-1/2 h-96 bg-white rounded shadow-md mt-2 p-4">
       <Formik
         enableReinitialize={true}
         initialValues={{
