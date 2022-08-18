@@ -9,13 +9,15 @@ module.exports = {
       fontFamily: {
         heading: ['"Montserrat Alternatives"', 'sans'],
         subheading: ['Montserrat', 'sans'],
-        body: ['"Nunito Sans"', 'sans']
+        body: ['"Roboto"', 'sans']
       },
       colors: {
         primary: '#00a19a',
         secondary: '#00a148',
         errorColor: '#cd030d',
-        background: '#fafafa'
+        background: '#fafafa',
+        ahBlue: '#0059a1',
+        ahGray: '#79777a'
       }
     }
   },

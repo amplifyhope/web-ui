@@ -42,7 +42,7 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
   }
 
   return (
-    <div className='w-1/2 p-4 mt-2 bg-white rounded shadow-md h-96'>
+    <div className='w-1/2 p-6 mt-2 bg-white rounded shadow-md h-96'>
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -86,54 +86,72 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
       >
         {props => {
           return (
-            <Form>
-              <div className='border-2 border-orange-500 border-dotted h-full'>
-                <input
-                  id='email'
-                  value={props.values.email}
-                  onChange={props.handleChange}
-                  type='email'
-                  name='email'
-                  placeholder='user@example.com'
-                />
-                <input
-                  id='donation'
-                  value={props.values.amount}
-                  name='amount'
-                  placeholder={config.MIN_AMOUNT.toString()}
-                  min={config.MIN_AMOUNT}
-                  max={config.MAX_AMOUNT}
-                  onChange={props.handleChange}
-                />
-                {isRecurring && (
-                  <select
-                    id='interval'
-                    name='interval'
-                    onChange={event =>
-                      handleChange(event.target.value as IntervalOptions)
-                    }
-                  >
-                    {intervalOptions.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                )}
+            <Form className='flex flex-col items-center justify-between w-full h-full'>
+              <div className='w-full'>
+                <div className='mb-4'>
+                  <label>Email</label>
+                  <input
+                    id='email'
+                    value={props.values.email}
+                    onChange={props.handleChange}
+                    type='email'
+                    name='email'
+                    placeholder='user@example.com'
+                    className='w-full px-3 py-2 bg-white border rounded-md shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 sm:text-sm focus:ring-1'
+                  />
+                </div>
+                <div className='mb-4 flex items-center justify-between w-full'>
+                  <div className={`${isRecurring ? 'w-5/12' : 'w-full'}`}>
+                    <label>Amount</label>
+                    <input
+                      id='donation'
+                      value={props.values.amount}
+                      name='amount'
+                      placeholder={config.MIN_AMOUNT.toString()}
+                      min={config.MIN_AMOUNT}
+                      max={config.MAX_AMOUNT}
+                      onChange={props.handleChange}
+                      className='w-full px-3 py-2 bg-white border rounded-md shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 sm:text-sm focus:ring-1'
+                    />
+                  </div>
+                  {isRecurring && (
+                    <div className='relative w-5/12'>
+                      <label>Interval</label>
+                      <select
+                        id='interval'
+                        name='interval'
+                        onChange={event =>
+                          handleChange(event.target.value as IntervalOptions)
+                        }
+                        className='w-full px-3 py-2 leading-tight text-gray-700 border rounded-md shadow-sm appearance-none border-slate-300 focus:outline-none focus:border-sky-500 focus:ring-sky-500 sm:text-sm focus:ring-1'
+                      >
+                        {intervalOptions.map((option, index) => (
+                          <option key={index} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                      <div className='absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 pointer-events-none'>
+                        <svg
+                          className='w-4 h-4 fill-current'
+                          xmlns='http://www.w3.org/2000/svg'
+                          viewBox='0 0 20 20'
+                        >
+                          <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div>
-                <button
-                  type='submit'
-                  style={{ marginTop: '2rem', width: '100%' }}
-                  disabled={loading}
-                >
-                  Donate{' '}
-                  {formatAmountForDisplay(
-                    +props.values.amount,
-                    config.CURRENCY
-                  )}{' '}
-                </button>
-              </div>
+              <button
+                type='submit'
+                disabled={loading}
+                className='w-full py-2 border border-solid rounded border-primary hover:bg-black/10 text-primary'
+              >
+                Donate{' '}
+                {formatAmountForDisplay(+props.values.amount, config.CURRENCY)}{' '}
+              </button>
             </Form>
           )
         }}
