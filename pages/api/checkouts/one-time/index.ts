@@ -2,23 +2,19 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { formatAmountForStripe } from 'utils/stripe-helpers'
 import { CURRENCY, MIN_AMOUNT, MAX_AMOUNT } from 'config'
 import Stripe from 'stripe'
+import { DonationRequestBody } from 'common/types'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2020-08-27',
   typescript: true
 })
 
-interface RequestBody {
-  amount: number
-  email: string
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const { amount, email }: RequestBody = req.body
+    const { amount, email, fund }: DonationRequestBody = req.body
     try {
       if (!(amount >= MIN_AMOUNT && amount <= MAX_AMOUNT)) {
         throw new Error('Invalid amount.')
@@ -30,12 +26,16 @@ export default async function handler(
         customer_email: !customer.data[0] ? email : undefined,
         line_items: [
           {
-            name: 'Donate to Amplify Hope',
+            name: `Donate to Amplify Hope: ${fund}`,
             amount: formatAmountForStripe(amount, CURRENCY),
             currency: CURRENCY,
             quantity: 1
           }
         ],
+        billing_address_collection: 'required',
+        metadata: {
+          fund
+        },
         success_url: `${req.headers.origin}/result/{CHECKOUT_SESSION_ID}`,
         cancel_url: req.headers.origin as string
       }

@@ -2,11 +2,16 @@ export type DonationRequestBody = {
   email: string
   amount: number
   interval?: IntervalOptions
-  interval_count?: number
+  fund: FundOptions
 }
 
 export enum IntervalOptions {
   month = 'month',
   quarter = 'quarter',
   year = 'year'
+}
+
+export enum FundOptions {
+  general = 'general',
+  hope40 = 'hope40'
 }

@@ -1,6 +1,6 @@
 import { ReactElement } from 'react'
 import type { AppProps } from 'next/app'
-import { Favicon } from 'components'
+import { Favicon, Header } from 'components'
 import Head from 'next/head'
 import '../styles/globals.css'
 
@@ -19,6 +19,7 @@ export default function MyApp({
         />
       </Head>
       <div>
+        <Header />
         <Component {...pageProps} />
       </div>
     </div>

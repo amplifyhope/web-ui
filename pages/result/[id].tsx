@@ -27,15 +27,19 @@ const Result = props => {
   }
 
   return (
-    <div>
-      <h5>
+    <div className='w-11/12 lg:w-1/2 p-6 mx-auto my-0 mt-10 bg-white rounded shadow-md lg:h-96 flex  flex-col justify-evenly items-center'>
+      <img className='h-0 lg:h-16' src='/images/logo-linear.svg' alt='logo' />
+      <div className='text-base lg:text-xl mb-6'>
         Thank you for your{' '}
         {formatAmountForDisplayFromStripe(session?.amount_total!, CURRENCY)}{' '}
-        {session?.mode === 'subscription' ? 'recurring' : null} donation.
-      </h5>
+        {session?.mode === 'subscription' ? 'recurring' : null} donation to{' '}
+        Amplify Hope: {session?.metadata?.fund}.
+      </div>
       <div>
         <Link href='/'>
-          <button>{'<-- Back Home'}</button>
+          <button className='py-2 px-4 border border-solid rounded border-primary hover:bg-black/10 text-primary'>
+            {'<-- Back Home'}
+          </button>
         </Link>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { formatAmountForStripe } from 'utils/stripe-helpers'
 import { CURRENCY, MIN_AMOUNT, MAX_AMOUNT } from 'config'
-import { DonationRequestBody, IntervalOptions } from 'common/types'
+import { DonationRequestBody, IntervalOptions, FundOptions } from 'common/types'
 import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -14,8 +14,17 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const { amount, email, interval, interval_count }: DonationRequestBody =
-      req.body
+    let product: string | undefined
+    let intervalCount = 1
+
+    const { amount, email, interval, fund }: DonationRequestBody = req.body
+
+    if (fund === FundOptions.general)
+      product = process.env.STRIPE_RECURRING_PRODUCT_ID
+    if (fund === FundOptions.hope40)
+      product = process.env.STRIPE_RECURRING_HOPE40_PRODUCT_ID
+    if (interval === IntervalOptions.quarter) intervalCount = 3
+
     const formattedAmount = formatAmountForStripe(amount, CURRENCY)
     const stripeInterval: Stripe.PriceListParams.Recurring.Interval =
       interval === IntervalOptions.year ? 'year' : 'month'
@@ -27,8 +36,8 @@ export default async function handler(
       }
 
       const priceParams: Stripe.PriceListParams = {
-        product: process.env.STRIPE_RECURRING_PRODUCT_ID,
-        lookup_keys: [formattedAmount.toString() + interval?.charAt(0)],
+        product,
+        lookup_keys: [`${formattedAmount.toString()}_${interval}_${fund}`],
         recurring: { interval: stripeInterval }
       }
 
@@ -38,12 +47,12 @@ export default async function handler(
       if (!price) {
         const priceCreateParams: Stripe.PriceCreateParams = {
           currency: CURRENCY,
-          product: process.env.STRIPE_RECURRING_PRODUCT_ID,
+          product,
           unit_amount: formattedAmount,
-          lookup_key: formattedAmount.toString() + interval?.charAt(0),
+          lookup_key: `${formattedAmount.toString()}_${interval}_${fund}`,
           recurring: {
             interval: stripeInterval!,
-            interval_count: interval_count
+            interval_count: intervalCount
           }
         }
 
@@ -56,6 +65,10 @@ export default async function handler(
         customer_email: !customer.data[0] ? email : undefined,
         mode: 'subscription',
         line_items: [{ price: price.id, quantity: 1 }],
+        billing_address_collection: 'required',
+        metadata: {
+          fund
+        },
         success_url: `${req.headers.origin}/result/{CHECKOUT_SESSION_ID}`,
         cancel_url: req.headers.origin as string
       }
