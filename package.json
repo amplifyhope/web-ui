@@ -1,6 +1,6 @@
 {
   "name": "amplify-hope-website",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "license": "MIT",
   "scripts": {
@@ -8,7 +8,7 @@
     "build": "next build",
     "format": "prettier --write .",
     "start": "next start",
-    "lint": "npm run lint:eslint && npm run lint:madge",
+    "lint": "yarn lint:eslint && yarn lint:madge",
     "lint:eslint": "eslint . --ext ts --ext tsx --ext js",
     "lint:madge": "madge --circular --ts-config tsconfig.json --extensions ts,js",
     "prepare": "husky install",
@@ -16,8 +16,8 @@
   },
   "lint-staged": {
     "*.@(ts|tsx)": [
-      "npm run lint",
-      "npm run format"
+      "yarn lint",
+      "yarn format"
     ]
   },
   "dependencies": {
@@ -30,7 +30,6 @@
     "next": "^12.0.10",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-md": "^5.0.0",
     "rxjs": "^7.5.2",
     "stripe": "^8.201.0",
     "yup": "^0.32.11"
@@ -40,6 +39,7 @@
     "@types/react": "17.0.38",
     "@typescript-eslint/eslint-plugin": "^5.10.2",
     "@typescript-eslint/parser": "^5.10.2",
+    "autoprefixer": "^10.4.8",
     "dotenv": "^16.0.0",
     "eslint": "^7.32.0",
     "eslint-config-next": "12.0.10",
@@ -52,11 +52,12 @@
     "eslint-plugin-react": "^7.28.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.3",
+    "postcss": "^8.4.16",
     "prettier": "2.5.1",
     "prettier-eslint": "^13.0.0",
     "prettier-plugin-prisma": "^3.9.0",
     "prisma": "^3.9.2",
-    "sass": "^1.49.7",
+    "tailwindcss": "^3.1.4",
     "ts-node-dev": "^1.1.8",
     "tsconfig-paths": "^3.12.0",
     "typescript": "4.5.5"

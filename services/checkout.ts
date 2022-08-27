@@ -1,5 +1,5 @@
-import fetchJson from 'utils/fetchJson';
-import { Stripe } from 'stripe';
+import fetchJson from 'utils/fetchJson'
+import { Stripe } from 'stripe'
 
 export const getCheckoutSession = async (
   id: string
@@ -7,6 +7,6 @@ export const getCheckoutSession = async (
   const foundSession = await fetchJson(`/api/checkout-sessions/${id}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
-  });
-  return foundSession;
-};
+  })
+  return foundSession
+}

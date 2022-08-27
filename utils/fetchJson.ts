@@ -1,9 +1,9 @@
-import Router from 'next/router';
-import { alertService } from './alerts';
+import Router from 'next/router'
+import { alertService } from './alerts'
 
 class ResponseError extends Error {
-  public response: any;
-  public data: any;
+  public response: any
+  public data: any
 }
 
 export default async function fetchJson(
@@ -16,57 +16,57 @@ export default async function fetchJson(
     id: 'global-alerts',
     autoClose: true,
     keepAfterRouteChange: false
-  };
+  }
 
   try {
-    const response = await fetch(path, args);
+    const response = await fetch(path, args)
     if (response.status === 204) {
       if (modelName && args.body) {
-        alertService.success(`${modelName} Saved`, alertOptions);
+        alertService.success(`${modelName} Saved`, alertOptions)
       } else if (modelName && args.method === 'DELETE') {
-        alertService.success(`${modelName} Removed`, alertOptions);
+        alertService.success(`${modelName} Removed`, alertOptions)
       }
-      return true;
+      return true
     }
 
     if (response.status === 201) {
       if (modelName) {
-        alertService.success(`${modelName} created`, alertOptions);
+        alertService.success(`${modelName} created`, alertOptions)
       }
-      const url = response.headers.get('Location');
+      const url = response.headers.get('Location')
       if (url && redirectOnCreate) {
-        return Router.push(url);
+        return Router.push(url)
       }
       if (url && !redirectOnCreate) {
-        return url.split('/').pop();
+        return url.split('/').pop()
       }
     }
 
     if (response.status === 500) {
-      return false;
+      return false
     }
 
-    const data = await response.json();
+    const data = await response.json()
     if (response.ok) {
-      return data;
+      return data
     }
 
     if (data && data.errors) {
-      const dataError = new ResponseError(data.errors[0]);
-      dataError.response = response;
-      dataError.data = data;
-      throw dataError;
+      const dataError = new ResponseError(data.errors[0])
+      dataError.response = response
+      dataError.data = data
+      throw dataError
     }
 
-    const error = new ResponseError(response.statusText);
-    error.response = response;
-    error.data = data;
-    throw error;
+    const error = new ResponseError(response.statusText)
+    error.response = response
+    error.data = data
+    throw error
   } catch (error) {
     if (!error.data) {
-      error.data = { message: error.message };
+      error.data = { message: error.message }
     }
-    alertService.error(error.message, alertOptions);
-    return false;
+    alertService.error(error.message, alertOptions)
+    return false
   }
 }
