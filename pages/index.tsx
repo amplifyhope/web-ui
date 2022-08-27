@@ -16,9 +16,9 @@ const Home: NextPage = () => {
           alt='logo'
         />
         <div className='flex flex-col items-center justify-between w-full mt-8 lg:flex-row lg:mt-14'>
-          <div className='w-full lg:mx-auto lg:my-0 mb-4 lg:w-1/3 lg:mb-0'>
+          <div className='w-full mb-4 lg:mx-auto lg:my-0 lg:w-1/3 lg:mb-0'>
             <img
-              className='mx-auto my-0 mb-4 rounded-md shadow-md h-40 lg:h-60'
+              className='h-40 mx-auto my-0 mb-4 rounded-md shadow-md lg:h-60'
               src='/images/samson-family.jpeg'
               alt='samson family'
             />
@@ -56,7 +56,7 @@ const Home: NextPage = () => {
               Blessings to you all!
             </p>
             <div
-              className='flex justify-start items-center mt-4 text-sm cursor-pointer text-slate-500 lg:hidden'
+              className='flex items-center justify-start mt-4 text-sm cursor-pointer text-slate-500 lg:hidden'
               onClick={() => setReadMore(!readMore)}
             >
               Read More&nbsp;&nbsp;
@@ -94,7 +94,7 @@ const Home: NextPage = () => {
             </div>
           </div>
           <div className='flex flex-col items-center justify-center w-full lg:w-1/2 lg:ml-4'>
-            <div className='flex items-center justify-between w-full lg:h-20 my-4'>
+            <div className='flex items-center justify-between w-full my-4 lg:h-20'>
               <button
                 className={`flex lg:text-lg items-center justify-center w-1/2 h-4/6 hover:bg-black/10 ${
                   !isRecurring ? activeTabStyle : 'text-gray-500'
