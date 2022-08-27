@@ -1,13 +1,13 @@
-import fetchJson from 'utils/fetchJson';
-import { Donation } from '@prisma/client';
+import fetchJson from 'utils/fetchJson'
+import { Donation } from '@prisma/client'
 
 export type DonationCreateView = {
-  id?: string;
-  recurring: boolean;
-  amount: number;
-  date?: Date | string;
-  recurring_type?: string | null;
-};
+  id?: string
+  recurring: boolean
+  amount: number
+  date?: Date | string
+  recurring_type?: string | null
+}
 
 export const listDonationsByUserId = async (
   userId: string
@@ -15,9 +15,9 @@ export const listDonationsByUserId = async (
   const donations = await fetchJson(`/api/donations/${userId}`, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
-  });
-  return donations;
-};
+  })
+  return donations
+}
 
 export const createDonation = async (
   donation: DonationCreateView,
@@ -31,6 +31,6 @@ export const createDonation = async (
       body: JSON.stringify({ ...donation, userId })
     },
     'Donation'
-  );
-  return donationId;
-};
+  )
+  return donationId
+}

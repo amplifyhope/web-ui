@@ -35,7 +35,6 @@
         "argsIgnorePattern": "^_"
       }
     ],
-    "prettier/prettier": ["error", { "singleQuote": true }],
     "no-console": [
       2,
       {
