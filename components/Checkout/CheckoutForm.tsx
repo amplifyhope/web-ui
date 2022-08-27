@@ -34,7 +34,7 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
   const [loading, setLoading] = useState<boolean>(false)
 
   return (
-    <div className='p-6 mt-2 w-full bg-white rounded shadow-md lg:h-96'>
+    <div className='w-full p-6 mt-2 bg-white rounded shadow-md lg:h-96'>
       <Formik
         enableReinitialize={true}
         initialValues={{
@@ -98,7 +98,7 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
                     component='a'
                   />
                 </div>
-                <div className='flex flex-col lg:flex-row items-start lg:items-center justify-between w-full mb-4'>
+                <div className='flex flex-col items-start justify-between w-full mb-4 lg:flex-row lg:items-center'>
                   <div
                     className={`${
                       isRecurring ? 'w-full lg:w-1/2 lg:mr-2' : 'w-full'
@@ -122,7 +122,7 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
                     />
                   </div>
                   {isRecurring && (
-                    <div className='relative w-full lg:w-1/2 lg:ml-2 mt-4'>
+                    <div className='relative w-full mt-4 lg:w-1/2 lg:ml-2 lg:mt-0'>
                       <label>Interval</label>
                       <Field
                         as='select'
@@ -206,7 +206,7 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
               <button
                 type='submit'
                 disabled={loading}
-                className='mt-4 w-full py-2 border border-solid rounded border-primary hover:bg-black/10 text-primary'
+                className='w-full py-2 mt-4 border border-solid rounded border-primary hover:bg-black/10 text-primary'
               >
                 Donate{' '}
                 {formatAmountForDisplay(+props.values.amount, config.CURRENCY)}{' '}
