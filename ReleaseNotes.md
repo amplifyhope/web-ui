@@ -2,17 +2,20 @@
 
 ## v1.0.3
 
-- Replace react-md with tailwind css.
+- Replaced react-md with tailwind css.
+- Added fund field to donate form.
+- Added samsons to website.
+- Implemented responsive design.
 
 ## v1.0.2
 
-- Add recurring payment option.
-- Configure webhook endpoint.
+- Added recurring payment option.
+- Configured webhook endpoint.
 
 ## v1.0.1
 
-- Add favicon.
-- Update Result-id page.
+- Added favicon.
+- Updated Result-id page.
 
 ## v1.0.0
 
