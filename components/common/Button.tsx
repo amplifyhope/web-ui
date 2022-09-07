@@ -1,18 +1,11 @@
-import { ReactNode } from 'react'
+// type ButtonProps = {
+//   color: 'primary' | 'secondary' | 'errorColor'
+//   theme: 'contained' | 'outline'
+//   handleClick: () => void
+//   children?: ReactNode
+// }
 
-type ButtonProps = {
-  color: 'primary' | 'secondary' | 'errorColor'
-  theme: 'contained' | 'outline'
-  handleClick: () => void
-  children?: ReactNode
-}
-
-export const Button = ({
-  color,
-  theme,
-  handleClick,
-  children
-}: ButtonProps) => {
+export const Button = ({ color, theme, handleClick, children }) => {
   const buttonStyle = `w-full lg:w-auto px-6 py-2 rounded-md ${
     theme === 'contained'
       ? `bg-${color}-500 hover:bg-${color}-600 text-white`
