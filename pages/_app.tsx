@@ -1,6 +1,7 @@
 import { ReactElement } from 'react'
 import type { AppProps } from 'next/app'
-import { Favicon, Header } from 'components'
+import { Favicon } from '../components/Layout/Favicon'
+import { Header } from '../components/Layout/Header'
 import Head from 'next/head'
 import '../styles/globals.css'
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import { Button } from 'components'
+import { Button } from '../components/Common/Button'
 import { NextPage } from 'next'
 
 const Hope40: NextPage = () => {
