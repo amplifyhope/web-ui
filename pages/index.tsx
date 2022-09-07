@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import { useState } from 'react'
-import { CheckoutForm } from '../components/Checkout/CheckoutForm'
+import { CheckoutForm } from 'components'
 
 const Home: NextPage = () => {
   const [isRecurring, setIsRecurring] = useState<boolean>(false)

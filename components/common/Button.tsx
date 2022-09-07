@@ -1,4 +1,11 @@
-import { ButtonProps } from './types'
+import { ReactNode } from 'react'
+
+type ButtonProps = {
+  color: 'primary' | 'secondary' | 'errorColor'
+  theme: 'contained' | 'outline'
+  handleClick: () => void
+  children?: ReactNode
+}
 
 export const Button = ({
   color,
