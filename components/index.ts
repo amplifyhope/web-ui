@@ -1,2 +1,2 @@
-export * from './Checkout'
-export * from './Layout'
+export * from './checkout'
+export * from './layout'

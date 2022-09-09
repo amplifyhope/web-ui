@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Button } from 'components'
 import { NextPage } from 'next'
+import Image from 'next/image'
+import hope40Graphic from '../public/images/hope-40-infographic.png'
+import hope40GraphicLarge from '../public/images/hope-40-infographic-lg.png'
 
 const Hope40: NextPage = () => {
   const [screenSize, setScreenSize] = useState<number>(0)
@@ -36,23 +39,25 @@ const Hope40: NextPage = () => {
           router.push('/')
         }}
       >
-        Donate
+        Become a Sponsor
       </Button>
       <p className='mt-8 text-lg font-semibold'>Participate!</p>
       {screenSize > 1024 ? (
-        <img
-          className='rounded-md shadow-md w-1/2'
-          src='/images/hope-40-infographic-lg.png'
+        <Image
+          className='w-2/3 rounded-md shadow-md'
+          src={hope40GraphicLarge}
+          alt='hope40 info graphic'
         />
       ) : (
-        <img
+        <Image
           className='rounded-md shadow-md'
-          src='/images/hope-40-infographic.png'
+          src={hope40Graphic}
+          alt='hope40 info graphic'
         />
       )}
       <a
         href='https://www.facebook.com/events/1258158334931141'
-        className='w-full lg:w-auto no-underline'
+        className='w-full no-underline lg:w-auto'
         target='_blank'
         rel='noreferrer'
       >

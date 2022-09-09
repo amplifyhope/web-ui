@@ -1,5 +1,9 @@
 # Amplify Hope Website Release Notes
 
+## v1.4.1
+
+- Updated hope40 button
+
 ## v1.4.0
 
 - Added hope40 page

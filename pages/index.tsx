@@ -1,6 +1,8 @@
 import type { NextPage } from 'next'
 import { useState } from 'react'
 import { CheckoutForm } from 'components'
+import SamsonFamily from '../public/images/samson-family.jpeg'
+import Image from 'next/image'
 
 const Home: NextPage = () => {
   const [isRecurring, setIsRecurring] = useState<boolean>(false)
@@ -17,9 +19,9 @@ const Home: NextPage = () => {
         />
         <div className='flex flex-col items-center justify-between w-full mt-8 lg:flex-row lg:mt-14'>
           <div className='w-full mb-4 lg:mx-auto lg:my-0 lg:w-1/3 lg:mb-0'>
-            <img
+            <Image
               className='h-40 mx-auto my-0 mb-4 rounded-md shadow-md lg:h-60'
-              src='/images/samson-family.jpeg'
+              src={SamsonFamily}
               alt='samson family'
             />
             <p
