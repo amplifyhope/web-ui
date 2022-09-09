@@ -1,18 +1,28 @@
 # Amplify Hope Website Release Notes
 
-## v1.0.3
+## v1.4.1
+
+- Updated hope40 button
+
+## v1.4.0
+
+- Added hope40 page
+- Added simple navigation
+- Added reusable Button component
+
+## v1.3.0
 
 - Replaced react-md with tailwind css.
 - Added fund field to donate form.
 - Added samsons to website.
 - Implemented responsive design.
 
-## v1.0.2
+## v1.2.0
 
 - Added recurring payment option.
 - Configured webhook endpoint.
 
-## v1.0.1
+## v1.1.0
 
 - Added favicon.
 - Updated Result-id page.
