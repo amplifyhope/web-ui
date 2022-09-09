@@ -8,7 +8,7 @@ import {
   RecurringDonationSchema
 } from 'utils/validation-schema'
 import { DonationRequestBody, IntervalOptions, FundOptions } from 'common/types'
-import * as config from '../config'
+import * as config from '../../config'
 
 type CheckoutFormProps = {
   isRecurring: boolean
