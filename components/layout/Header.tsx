@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
-
-type NavLink = {
-  title: string
-  path: string
-}
+import Image from 'next/image'
+import { Button } from 'components'
+import Logo from '../../public/images/logo-linear-white.svg'
 
 export const Header = () => {
   const [showNav, setShowNav] = useState<boolean>(false)
@@ -16,23 +13,26 @@ export const Header = () => {
     setScreenSize(window.innerWidth)
   }, [screenSize])
 
-  const navLinks: NavLink[] = [
-    { title: 'Home', path: '/' },
-    { title: 'Hope40', path: '/hope40' }
-  ]
-
   return (
     <div>
-      <div className='flex items-center justify-between w-full px-6 bg-primary-500 h-14'>
+      <div className='absolute top-0 flex items-center justify-between w-full h-20 px-5 bg-black bg-opacity-50'>
         {screenSize > 1024 ? (
-          <div className='w-11/12 flex items-center justify-end text-white'>
-            {navLinks.map((link, index) => (
-              <div key={index} className='ml-4'>
-                <Link href={link.path}>
-                  <a onClick={() => setShowNav(false)}>{link.title}</a>
-                </Link>
-              </div>
-            ))}
+          <div className='flex justify-between mx-auto my-0 text-white'>
+            <Image
+              src={Logo}
+              alt='logo-white'
+              height={56}
+              width={312.12}
+              onClick={() => router.push('/')}
+              className='cursor-pointer'
+            />
+            <Button
+              color='secondary'
+              theme='outline'
+              handleClick={() => router.push('/donate')}
+            >
+              Donate
+            </Button>
           </div>
         ) : (
           <>
@@ -83,13 +83,13 @@ export const Header = () => {
           !showNav ? '-right-1/3' : 'right-0'
         } bg-primary-500 transition-all duration-100 ease-in-out`}
       >
-        {navLinks.map((link, index) => (
+        {/* {navLinks.map((link, index) => (
           <div key={index} className='mb-4'>
             <Link href={link.path}>
               <a onClick={() => setShowNav(false)}>{link.title}</a>
             </Link>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   )

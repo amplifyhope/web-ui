@@ -6,10 +6,8 @@ module.exports = {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        heading: ['"Montserrat Alternatives"', 'sans'],
-        subheading: ['Montserrat', 'sans'],
-        body: ['"Roboto"', 'sans']
+      backgroundImage: {
+        'homepage-main': "url('/images/homepage-main-background.jpeg')"
       },
       colors: {
         'primary-100': '#66c6c2',
@@ -29,6 +27,11 @@ module.exports = {
         ahBlue: '#0059a1',
         ahGray: '#79777a'
       }
+    },
+    fontFamily: {
+      heading: ['"Montserrat Alternatives"', 'sans-serif'],
+      subheading: ['Montserrat', 'sans-serif'],
+      body: ['Roboto', 'sans-serif']
     }
   },
   plugins: []
