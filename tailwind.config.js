@@ -7,7 +7,8 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'homepage-main': "url('/images/homepage-main-background.jpeg')"
+        'homepage-main': "url('/images/homepage-main-background.jpeg')",
+        'learn-more-2': "url('/images/homepage-learn-more-2.jpeg')"
       },
       colors: {
         'primary-100': '#66c6c2',
