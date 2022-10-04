@@ -8,7 +8,9 @@ module.exports = {
     extend: {
       backgroundImage: {
         'homepage-main': "url('/images/homepage-main-background.jpeg')",
-        'learn-more-2': "url('/images/homepage-learn-more-2.jpeg')"
+        'learn-more-2': "url('/images/homepage-learn-more-2.jpeg')",
+        'samson-family': "url('/images/samson-family.jpeg')",
+        donate: "url('/images/donate-background.jpeg')"
       },
       colors: {
         'primary-100': '#66c6c2',

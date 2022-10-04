@@ -15,7 +15,7 @@ const Hope40: NextPage = () => {
   }, [screenSize])
 
   return (
-    <div className='flex flex-col items-center w-11/12 mx-auto my-0 mt-8 lg:w-4/5'>
+    <div className='flex flex-col items-center w-11/12 mx-auto my-0 mt-32 lg:w-4/5'>
       <p className='text-lg font-semibold text-center'>Hope 40 Challenge:</p>
       <p className='text-center'>
         Share hope with the underserved in the Philippines!

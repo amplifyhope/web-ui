@@ -19,13 +19,18 @@ export const Header = () => {
     setScreenSize(window.innerWidth)
   }, [screenSize])
 
-  const navLinks: NavLink[] = [{ title: 'Donate', path: '/donate' }]
+  const mobileNavLinks: NavLink[] = [
+    { title: 'Hope40', path: '/hope40' },
+    { title: 'Donate', path: '/donate' }
+  ]
+
+  const desktopNavLinks: NavLink[] = [{ title: 'Hope40', path: '/hope40' }]
 
   return (
     <div>
-      <div className='absolute top-0 z-10 flex items-center justify-between w-full h-20 px-5 bg-black bg-opacity-50'>
+      <div className='absolute top-0 z-10 flex items-center justify-between w-full h-20 px-5 bg-black bg-opacity-50 lg:px-20'>
         {screenSize > 1024 ? (
-          <div className='flex justify-between mx-auto my-0 text-white'>
+          <div className='flex justify-between w-full mx-auto my-0 text-white'>
             <Image
               src={Logo}
               alt='logo-white'
@@ -34,6 +39,13 @@ export const Header = () => {
               onClick={() => router.push('/')}
               className='cursor-pointer'
             />
+            <div className='flex items-center justify-end w-full px-14'>
+              {desktopNavLinks.map((link, index) => (
+                <Link key={index} href={link.path}>
+                  {link.title}
+                </Link>
+              ))}
+            </div>
             <Button
               color='secondary'
               theme='outline'
@@ -90,8 +102,8 @@ export const Header = () => {
             d='M6 18L18 6M6 6l12 12'
           />
         </svg>
-        {navLinks.map((link, index) => (
-          <div key={index}>
+        {mobileNavLinks.map((link, index) => (
+          <div key={index} className='my-4'>
             <Link href={link.path}>
               <a
                 onClick={() => setShowNav(false)}
