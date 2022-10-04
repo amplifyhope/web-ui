@@ -1,5 +1,11 @@
 # Amplify Hope Website Release Notes
 
+## v2.0.0
+
+- Complete redesign
+  - Updated styles and layout
+  - Added separate landing page
+
 ## v1.4.1
 
 - Updated hope40 button

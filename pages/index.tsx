@@ -1,32 +1,58 @@
+import { Button, Footer } from 'components'
 import type { NextPage } from 'next'
-import { useState } from 'react'
-import { CheckoutForm } from 'components'
-import SamsonFamily from '../public/images/samson-family.jpeg'
-import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 const Home: NextPage = () => {
-  const [isRecurring, setIsRecurring] = useState<boolean>(false)
-  const [readMore, setReadMore] = useState<boolean>(false)
-  const activeTabStyle = 'border-b-2 border-b-primary text-black'
-
+  const router = useRouter()
   return (
     <div>
-      <div className='flex flex-col items-center justify-center w-11/12 mx-auto mb-0 lg:w-4/5 lg:mt-14'>
+      <section className='flex flex-col items-center justify-between w-full h-screen bg-ahBlue'>
+        <div></div>
+        <div className='w-full bg-homepage-main bg-no-repeat bg-[bottom_left_-15rem] h-2/3 md:h-full md:bg-bottom bg-cover'>
+          <div className='w-full h-full bg-gradient-to-b from-ahBlue md:bg-ahBlue md:bg-opacity-50'>
+            <div className='absolute top-0 flex flex-col items-start justify-center w-full h-full px-8 md:px-24'>
+              <p className='mb-48 text-4xl font-bold text-center text-white md:leading-relaxed md:mb-12 md:text-6xl md:w-3/5 md:text-left font-subheading'>
+                Empowering People, Transforming Communities
+              </p>
+              <Button
+                color='primary'
+                theme='contained'
+                handleClick={() => {
+                  router.push('/donate')
+                }}
+              >
+                Donate
+              </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className='w-full h-[75vh] flex flex-col md:flex-row justify-evenly md:justify-between items-center px-8 md:px-24'>
         <img
-          className='h-0 lg:h-16 lg:visible'
-          src='/images/logo-linear.svg'
-          alt='logo'
+          src='/images/homepage-learn-more-1.jpeg'
+          alt='filipino EMT with children'
+          className='rounded-md shadow-sm md:w-5/12'
         />
-        <div className='flex flex-col items-center justify-between w-full mt-8 lg:flex-row lg:mt-14'>
-          <div className='w-full mb-4 lg:mx-auto lg:my-0 lg:w-1/3 lg:mb-0'>
-            <Image
-              className='h-40 mx-auto my-0 mb-4 rounded-md shadow-md lg:h-60'
-              src={SamsonFamily}
-              alt='samson family'
-            />
-            <p
-              className={`${!readMore ? 'h-24 lg:h-auto overflow-hidden' : ''}`}
-            >
+        <p className='text-xl text-center md:text-3xl md:text-right text-ahGray md:w-6/12 md:leading-relaxed'>
+          Our mission is to{' '}
+          <span className='font-semibold'>empower people</span> for{' '}
+          <span className='font-semibold'>community transformation</span> by
+          providing education, resources, and opportunities to serve,
+          concentrating on the “least resourced” demographics.
+        </p>
+        {/* <Button
+          color='primary'
+          theme='contained'
+          handleClick={() => router.push('/donate')}
+        >
+          Learn More
+        </Button> */}
+      </section>
+      <section className='bg-ahBlue w-full h-[90vh] md:h-[75vh] flex flex-col items-center md:items-start justify-between relative'>
+        <div className='md:hidden'></div>
+        <div className='w-full h-64 bg-bottom bg-no-repeat bg-cover md:h-full md:w-7/12 md:bg-right bg-samson-family'>
+          <div className='w-full h-full bg-gradient-to-b md:bg-gradient-to-l from-ahBlue'>
+            <p className='absolute top-0 px-5 py-10 text-base text-center text-white md:top-24 md:right-0 md:text-2xl md:text-right md:w-6/12 md:leading-relaxed'>
               Amplify Hope is responsible for empowering and equipping several
               international humanitarian projects including the International
               Service Corps of Asia and Hope Rescue EMS. Edwin and Amy Samson
@@ -34,90 +60,33 @@ const Home: NextPage = () => {
               community transformation. They are grateful for the many
               volunteers, donors, groups, organizations, and churches that
               support the work. If you are interested in making a difference in
-              someone’s life through giving, then you’ve reached the right page.
-              For more information about the Samsons or our projects, you can
-              visit the following websites:{' '}
+              someone&apos;s life through giving, then you&apos;ve reached the
+              right page. For more information about the Samsons or our
+              projects, you can visit the following websites:{' '}
               <a
-                href='https://www.samsonadventures.com'
+                href='https://www.samsonadventures.com/'
                 target='_blank'
                 rel='noreferrer'
               >
                 samsonadventures.com
               </a>{' '}
-              or&nbsp;
+              or{' '}
               <a
-                href='https://www.iservicecorps.org'
+                href='https://www.iservicecorps.org/'
                 target='_blank'
                 rel='noreferrer'
               >
                 iservicecorps.org
               </a>
-              . If you’d like to be involved as a volunteer, please contact the
-              Samsons at{' '}
+              . If you&apos;d like to be involved as a volunteer, please contact
+              the Samsons at{' '}
               <a href='mailto:info@amplifyhope.cc'>info@amplifyhope.cc</a>.
               Blessings to you all!
             </p>
-            <div
-              className='flex items-center justify-start mt-4 text-sm cursor-pointer text-slate-500 lg:hidden'
-              onClick={() => setReadMore(!readMore)}
-            >
-              Read More&nbsp;&nbsp;
-              {readMore ? (
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  strokeWidth={1.5}
-                  stroke='currentColor'
-                  className='w-4 h-4'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M4.5 15.75l7.5-7.5 7.5 7.5'
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  strokeWidth={1.5}
-                  stroke='currentColor'
-                  className='w-4 h-4'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='M19.5 8.25l-7.5 7.5-7.5-7.5'
-                  />
-                </svg>
-              )}
-            </div>
-          </div>
-          <div className='flex flex-col items-center justify-center w-full lg:w-1/2 lg:ml-4'>
-            <div className='flex items-center justify-between w-full my-4 lg:h-20'>
-              <button
-                className={`flex lg:text-lg items-center justify-center w-1/2 h-4/6 hover:bg-black/10 ${
-                  !isRecurring ? activeTabStyle : 'text-gray-500'
-                }`}
-                onClick={() => setIsRecurring(false)}
-              >
-                One Time Donation
-              </button>
-              <button
-                className={`flex lg:text-lg items-center justify-center w-1/2 h-4/6 hover:bg-black/10 ${
-                  isRecurring ? activeTabStyle : 'text-gray-500'
-                }`}
-                onClick={() => setIsRecurring(true)}
-              >
-                Recurring Donation
-              </button>
-            </div>
-            <CheckoutForm isRecurring={isRecurring} />
           </div>
         </div>
-      </div>
+      </section>
+      <Footer />
     </div>
   )
 }
