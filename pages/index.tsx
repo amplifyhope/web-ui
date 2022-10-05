@@ -10,7 +10,7 @@ const Home: NextPage = () => {
         <div></div>
         <div className='w-full bg-homepage-main bg-no-repeat bg-[bottom_left_-15rem] h-2/3 md:h-full md:bg-bottom bg-cover'>
           <div className='w-full h-full bg-gradient-to-b from-ahBlue md:bg-ahBlue md:bg-opacity-50'>
-            <div className='absolute top-0 flex flex-col items-start justify-center w-full h-full px-8 md:px-24'>
+            <div className='absolute top-20 flex flex-col items-start justify-center w-full h-[calc(100%_-_5rem)] px-8 md:px-24'>
               <p className='mb-48 text-4xl font-bold text-center text-white md:leading-relaxed md:mb-12 md:text-6xl md:w-3/5 md:text-left font-subheading'>
                 Empowering People, Transforming Communities
               </p>
