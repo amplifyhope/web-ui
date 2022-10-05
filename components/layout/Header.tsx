@@ -61,6 +61,7 @@ export const Header = () => {
               src='/images/logo-linear-white.svg'
               alt='white logo'
               onClick={() => router.push('/')}
+              onTouchEnd={() => router.push('/')}
             />
             {!showNav ? (
               <svg
@@ -71,6 +72,7 @@ export const Header = () => {
                 stroke='white'
                 className='w-6 h-6 lg:hidden'
                 onClick={() => setShowNav(true)}
+                onTouchEnd={() => setShowNav(true)}
               >
                 <path
                   strokeLinecap='round'
