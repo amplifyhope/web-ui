@@ -28,7 +28,7 @@ export const Header = () => {
 
   return (
     <div>
-      <div className='absolute top-0 z-10 flex items-center justify-between w-full h-20 px-5 bg-black bg-opacity-50 lg:px-20'>
+      <div className='absolute top-0 flex items-center justify-between w-full h-20 px-5 bg-black bg-opacity-50 lg:px-20'>
         {screenSize > 1024 ? (
           <div className='flex justify-between w-full mx-auto my-0 text-white'>
             <Image
@@ -83,8 +83,8 @@ export const Header = () => {
         )}
       </div>
       <div
-        className={`z-20 h-screen fixed top-0 flex flex-col items-center justify-center w-full p-5 text-white ${
-          !showNav ? '-top-full opacity-0' : 'top-0 opacity-100'
+        className={`z-10 h-screen fixed flex flex-col items-center justify-center w-full p-5 text-white ${
+          !showNav ? '-top-full' : 'top-0'
         } bg-ahBlue transition-all duration-500 ease-in-out`}
       >
         <svg
