@@ -27,13 +27,13 @@ const Home: NextPage = () => {
           </div>
         </div>
       </section>
-      <section className='w-full h-[75vh] flex flex-col md:flex-row justify-evenly md:justify-between items-center px-8 md:px-24'>
+      <section className='w-full h-[75vh] flex flex-col lg:flex-row justify-evenly lg:justify-between items-center px-8 lg:px-24'>
         <img
           src='/images/homepage-learn-more-1.jpeg'
           alt='filipino EMT with children'
-          className='rounded-md shadow-sm md:w-5/12'
+          className='rounded-md shadow-sm md:w-9/12 lg:w-5/12'
         />
-        <p className='text-xl text-center md:text-3xl md:text-right text-ahGray md:w-6/12 md:leading-relaxed'>
+        <p className='text-xl text-center md:text-2xl lg:text-3xl lg:text-right text-ahGray lg:w-6/12 lg:leading-relaxed'>
           Our mission is to{' '}
           <span className='font-semibold'>empower people</span> for{' '}
           <span className='font-semibold'>community transformation</span> by
@@ -48,11 +48,11 @@ const Home: NextPage = () => {
           Learn More
         </Button> */}
       </section>
-      <section className='bg-ahBlue w-full h-[90vh] md:h-[75vh] flex flex-col items-center md:items-start justify-between relative'>
-        <div className='md:hidden'></div>
-        <div className='w-full h-64 bg-bottom bg-no-repeat bg-cover md:h-full md:w-7/12 md:bg-right bg-samson-family'>
-          <div className='w-full h-full bg-gradient-to-b md:bg-gradient-to-l from-ahBlue'>
-            <p className='absolute top-0 px-5 py-10 text-base text-center text-white md:top-24 md:right-0 md:text-2xl md:text-right md:w-6/12 md:leading-relaxed'>
+      <section className='bg-ahBlue w-full h-[90vh] lg:h-[75vh] flex flex-col items-center lg:items-start justify-between relative'>
+        <div className='lg:hidden'></div>
+        <div className='w-full h-64 bg-bottom bg-no-repeat bg-cover md:h-4/6 lg:h-full lg:w-7/12 lg:bg-right bg-samson-family'>
+          <div className='w-full h-full bg-gradient-to-b lg:bg-gradient-to-l from-ahBlue'>
+            <p className='absolute top-0 px-5 py-10 text-base text-center text-white md:text-2xl lg:top-18 xl:top-24 lg:right-0 lg:text-xl xl:text-2xl lg:text-right lg:w-6/12 lg:leading-relaxed'>
               Amplify Hope is responsible for empowering and equipping several
               international humanitarian projects including the International
               Service Corps of Asia and Hope Rescue EMS. Edwin and Amy Samson
