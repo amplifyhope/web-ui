@@ -1,5 +1,12 @@
 # Amplify Hope Website Release Notes
 
+## v2.1.0
+
+- Fixed mobile nav
+  - Was technically covered by dropdown menu on ios browsers.
+
+- Added dev pipeline
+
 ## v2.0.0
 
 - Complete redesign
