@@ -23,24 +23,29 @@ const Result = props => {
   }, [])
 
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <div className='w-full h-screen pt-24 pl-4 text-white bg-ahBlue'>
+        Loading...
+      </div>
+    )
   }
 
   return (
-    <div className='flex flex-col items-center w-11/12 p-6 mx-auto my-0 mt-10 bg-white rounded shadow-md lg:w-1/2 lg:h-96 justify-evenly'>
-      <img className='h-0 lg:h-16' src='/images/logo-linear.svg' alt='logo' />
-      <div className='mb-6 text-base lg:text-xl'>
-        Thank you for your{' '}
-        {formatAmountForDisplayFromStripe(session?.amount_total!, CURRENCY)}{' '}
-        {session?.mode === 'subscription' ? 'recurring' : null} donation to{' '}
-        Amplify Hope: {session?.metadata?.fund}.
-      </div>
-      <div>
-        <Link href='/'>
-          <button className='px-4 py-2 border border-solid rounded border-primary hover:bg-black/10 text-primary'>
-            {'<-- Back Home'}
-          </button>
-        </Link>
+    <div className='w-full h-screen pt-32 bg-ahBlue'>
+      <div className='flex flex-col items-center w-11/12 p-6 mx-auto my-0 bg-white rounded shadow-md lg:w-1/2 lg:h-96 justify-evenly'>
+        <div className='mb-6 text-base lg:text-xl'>
+          Thank you for your{' '}
+          {formatAmountForDisplayFromStripe(session?.amount_total!, CURRENCY)}{' '}
+          {session?.mode === 'subscription' ? 'recurring' : null} donation to{' '}
+          Amplify Hope: {session?.metadata?.fund}.
+        </div>
+        <div>
+          <Link href='/'>
+            <button className='px-4 py-2 border border-solid rounded border-primary hover:bg-black/10 text-primary'>
+              {'<-- Back Home'}
+            </button>
+          </Link>
+        </div>
       </div>
     </div>
   )
