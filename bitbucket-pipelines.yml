@@ -3,4 +3,4 @@ pipelines:
     - step:
         name: 'test'
         script:
-          - 'nvm use && yarn test:unit'
+          - 'nvm install 16 && nvm use && yarn test:unit'
