@@ -3,6 +3,7 @@ image: node:16-alpine
 pipelines:
   default:
     - step:
-        name: 'test'
+        name: test
         script:
-          - 'yarn test:unit'
+          - yarn add -D ts-mocha
+          - yarn test:unit
