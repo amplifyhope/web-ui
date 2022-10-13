@@ -1,7 +1,9 @@
-clone:
-  depth: full
+image: node:16-alpine
+
 pipelines:
   default:
     - step:
+        name: test
         script:
-          - git push --mirror git@github.com:agiannell-ah/amplify-hope-website.git
+          - yarn add -D ts-mocha
+          - yarn test:unit
