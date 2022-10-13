@@ -5,4 +5,4 @@ pipelines:
     - step:
         name: 'test'
         script:
-          - 'nvm install 16 && nvm use && yarn test:unit'
+          - 'yarn test:unit'
