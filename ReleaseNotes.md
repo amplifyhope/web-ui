@@ -3,6 +3,7 @@
 ## v2.1.0
 
 - Fixed mobile nav
+
   - Was technically covered by dropdown menu on ios browsers.
 
 - Added dev pipeline

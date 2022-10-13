@@ -1,5 +1,6 @@
 pipelines:
   default:
     - step:
-      script:
-        - 'nvm use && yarn test:unit'
+        name: 'test'
+        script:
+          - 'nvm use && yarn test:unit'
