@@ -1,7 +1,5 @@
-clone:
-  depth: full
 pipelines:
   default:
     - step:
-        script:
-          - git push --mirror git@github.com:agiannell-ah/amplify-hope-website.git
+      script:
+        - 'nvm use && yarn test:unit'
