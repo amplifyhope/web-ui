@@ -12,10 +12,13 @@ export type DonationCreateView = {
 export const listDonationsByUserId = async (
   userId: string
 ): Promise<Donation[]> => {
-  const donations = await fetchJson(`/api/donations/${userId}`, {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' }
-  })
+  const donations = await fetchJson(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/donations/${userId}`,
+    {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' }
+    }
+  )
   return donations
 }
 
@@ -24,7 +27,7 @@ export const createDonation = async (
   userId: string
 ): Promise<string> => {
   const donationId = await fetchJson(
-    '/api/donations',
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/donations`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

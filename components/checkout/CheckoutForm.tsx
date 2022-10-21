@@ -60,7 +60,9 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
           }
 
           const response = await fetchJson(
-            `/api/checkouts/${isRecurring ? 'recurring' : 'one-time'}`,
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/checkouts/${
+              isRecurring ? 'recurring' : 'one-time'
+            }`,
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
