@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+
+module.exports = {
   reactStrictMode: true,
-  env: {
-    STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY
+  experimental: {
+    outputStandalone: true
   }
 }
-
-module.exports = nextConfig
