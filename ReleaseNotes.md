@@ -5,6 +5,7 @@
 - Wrote unit tests for `stripe-helpers`
 - Updated pipeline to run tests
 - Moved API into it's own project
+- Containerized application
 
 ## v2.1.0
 
