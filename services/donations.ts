@@ -1,5 +1,5 @@
+import { Donation } from 'common/types'
 import fetchJson from 'utils/fetchJson'
-import { Donation } from '@prisma/client'
 
 export type DonationCreateView = {
   id?: string
