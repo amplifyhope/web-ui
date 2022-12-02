@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 import { getCheckoutSession } from 'services/checkout'
@@ -11,16 +11,23 @@ const Result = props => {
   const [session, setSession] = useState<Stripe.Checkout.Session>()
   const [loading, setLoading] = useState<boolean>(false)
 
-  const fetchCheckout = async () => {
+  const fetchCheckout = useCallback(async () => {
     setLoading(true)
     const checkoutSession = await getCheckoutSession(id)
     setSession(checkoutSession)
     setLoading(false)
-  }
+  }, [id])
+
+  // const fetchCheckout = async () => {
+  //   setLoading(true)
+  //   const checkoutSession = await getCheckoutSession(id)
+  //   setSession(checkoutSession)
+  //   setLoading(false)
+  // }
 
   useEffect(() => {
     fetchCheckout()
-  }, [])
+  }, [fetchCheckout])
 
   if (loading) {
     return (
