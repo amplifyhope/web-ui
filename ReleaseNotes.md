@@ -1,5 +1,10 @@
 # Amplify Hope Website Release Notes
 
+## v2.3.0
+
+- Upgraded to Next.JS 13
+- Removed Prisma
+
 ## v2.2.0
 
 - Wrote unit tests for `stripe-helpers`
