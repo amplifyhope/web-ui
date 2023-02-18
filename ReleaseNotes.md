@@ -1,5 +1,9 @@
 # Amplify Hope Website Release Notes
 
+## v2.4.0
+
+- Removed Hope40
+
 ## v2.3.0
 
 - Upgraded to Next.JS 13
