@@ -19,12 +19,9 @@ export const Header = () => {
     setScreenSize(window.innerWidth)
   }, [screenSize])
 
-  const mobileNavLinks: NavLink[] = [
-    { title: 'Hope40', path: '/hope40' },
-    { title: 'Donate', path: '/donate' }
-  ]
+  const mobileNavLinks: NavLink[] = [{ title: 'Donate', path: '/donate' }]
 
-  const desktopNavLinks: NavLink[] = [{ title: 'Hope40', path: '/hope40' }]
+  const desktopNavLinks: NavLink[] = []
 
   return (
     <div>
@@ -39,11 +36,13 @@ export const Header = () => {
             className='cursor-pointer'
           />
           <div className='flex items-center justify-end w-full px-14'>
-            {desktopNavLinks.map((link, index) => (
-              <Link key={index} href={link.path}>
-                {link.title}
-              </Link>
-            ))}
+            {desktopNavLinks
+              ? desktopNavLinks.map((link, index) => (
+                  <Link key={index} href={link.path}>
+                    {link.title}
+                  </Link>
+                ))
+              : null}
           </div>
           <Button
             color='secondary'
@@ -101,13 +100,12 @@ export const Header = () => {
         </svg>
         {mobileNavLinks.map((link, index) => (
           <div key={index} className='my-4'>
-            <Link href={link.path}>
-              <a
-                onClick={() => setShowNav(false)}
-                className='text-xl font-bold no-underline'
-              >
-                {link.title}
-              </a>
+            <Link
+              href={link.path}
+              onClick={() => setShowNav(false)}
+              className='text-xl font-bold no-underline'
+            >
+              {link.title}
             </Link>
           </div>
         ))}
