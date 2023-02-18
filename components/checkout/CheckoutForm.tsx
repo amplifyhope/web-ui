@@ -27,7 +27,7 @@ const intervalOptions: IntervalOptions[] = [
   IntervalOptions.year
 ]
 
-const fundOptions: FundOptions[] = [FundOptions.general, FundOptions.hope40]
+const fundOptions: FundOptions[] = [FundOptions.general]
 
 export const CheckoutForm = (props: CheckoutFormProps) => {
   const { isRecurring } = props
