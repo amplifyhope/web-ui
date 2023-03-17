@@ -13,10 +13,10 @@ pipelines:
           - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
           - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
           - docker build 
-            -t agiannellah/ah-api:latest
-            -t agiannellah/ah-api:$BITBUCKET_COMMIT_SHORT_SHA .
-          - docker push agiannellah/ah-api:latest
-          - docker push agiannellah/ah-api:$BITBUCKET_COMMIT_SHORT_SHA
+            -t agiannellah/ah-front-end:latest
+            -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA .
+          - docker push agiannellah/ah-front-end:latest
+          - docker push agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
         services:
           - docker
     - step:
