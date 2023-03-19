@@ -14,7 +14,7 @@ pipelines:
             variables:
               SNYK_TOKEN: $SNYK_TOKEN
               LANGUAGE: npm
-  pull-requests:
+  branches:
     '**':
       - step:
           name: build and push
@@ -32,7 +32,7 @@ pipelines:
             - docker push agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
           services:
             - docker
-    'develop':
+    develop:
       - step:
           name: deploy-staging
           script:
@@ -48,7 +48,7 @@ pipelines:
                   docker rm amplify-hope-front-end
                   echo "amplify-hope-api container removed"
                   docker run --name amplify-hope-front-end --env-file ~/.env/.ah-front-end.env -p 3000:3000 -d agiannellah/ah-front-end:latest
-    'main':
+    main:
       - step:
           name: deploy-production
           script:
