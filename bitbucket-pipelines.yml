@@ -7,3 +7,60 @@ pipelines:
         script:
           - yarn add -D ts-mocha
           - yarn test:unit
+    - step:
+        name: build and push
+        script:
+          - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
+          - export APP_VERSION="$(npm run version --silent)"
+          - echo $APP_VERSION
+          - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+          - docker build 
+            -t agiannellah/ah-front-end:latest
+            -t agiannellah/ah-front-end:$APP_VERSION
+            -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA .
+          - docker push agiannellah/ah-front-end:latest
+          - docker push agiannellah/ah-front-end:$APP_VERSION
+          - docker push agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
+        services:
+          - docker
+    - step:
+        name: snyk
+        script:
+          - pipe: snyk/snyk-scan:0.5.3
+            variables:
+              SNYK_TOKEN: $SNYK_TOKEN
+              LANGUAGE: npm
+  branches:
+    develop:
+      - step:
+          name: deploy-staging
+          script:
+            - pipe: atlassian/ssh-run:0.4.1
+              variables:
+                SSH_USER: $EC2_USER
+                SERVER: $EC2_HOST_STAGE
+                COMMAND: |
+                  echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+                  docker pull agiannellah/ah-front-end:latest
+                  docker stop amplify-hope-front-end
+                  echo "amplify-hope-api container stopped"
+                  docker rm amplify-hope-front-end
+                  echo "amplify-hope-api container removed"
+                  docker run --name amplify-hope-front-end --env-file ~/.env/.ah-front-end.env -p 3002:3002 -d agiannellah/ah-front-end:latest
+    main:
+      - step:
+          name: deploy-production
+          trigger: manual
+          script:
+            - pipe: atlassian/ssh-run:0.4.1
+              variables:
+                SSH_USER: $EC2_USER
+                SERVER: $EC2_HOST_PROD
+                COMMAND: |
+                  echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+                  docker pull agiannellah/ah-front-end:latest
+                  docker stop amplify-hope-front-end
+                  echo "amplify-hope-front-end container stopped"
+                  docker rm amplify-hope-front-end
+                  echo "amplify-hope-front-end container removed"              
+                  docker run --name amplify-hope-front-end --env-file ~/.env/.ah-front-end.env -p 3002:3002 -d agiannellah/ah-front-end:latest
