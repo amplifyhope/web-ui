@@ -46,7 +46,7 @@ pipelines:
                   echo "amplify-hope-api container stopped"
                   docker rm amplify-hope-front-end
                   echo "amplify-hope-api container removed"
-                  docker run --name amplify-hope-front-end --env-file ~/.env/.ah-front-end.env -p 3002:3002 -d agiannellah/ah-front-end:latest
+                  docker run --name amplify-hope-front-end --env-file ~/.env/.ah-front-end.env -p 3000:3000 -d agiannellah/ah-front-end:latest
     main:
       - step:
           name: deploy-production
@@ -63,4 +63,4 @@ pipelines:
                   echo "amplify-hope-front-end container stopped"
                   docker rm amplify-hope-front-end
                   echo "amplify-hope-front-end container removed"              
-                  docker run --name amplify-hope-front-end --env-file ~/.env/.ah-front-end.env -p 3002:3002 -d agiannellah/ah-front-end:latest
+                  docker run --name amplify-hope-front-end --env-file ~/.env/.ah-front-end.env -p 3000:3000 -d agiannellah/ah-front-end:latest
