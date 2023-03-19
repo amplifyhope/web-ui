@@ -17,21 +17,21 @@ pipelines:
   pull-requests:
     '**':
       - step:
-        name: build and push
-        script:
-          - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
-          - export APP_VERSION="$(npm run version --silent)"
-          - echo $APP_VERSION
-          - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
-          - docker build 
-            -t agiannellah/ah-front-end:latest
-            -t agiannellah/ah-front-end:$APP_VERSION
-            -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA .
-          - docker push agiannellah/ah-front-end:latest
-          - docker push agiannellah/ah-front-end:$APP_VERSION
-          - docker push agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
-        services:
-          - docker
+          name: build and push
+          script:
+            - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
+            - export APP_VERSION="$(npm run version --silent)"
+            - echo $APP_VERSION
+            - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+            - docker build 
+              -t agiannellah/ah-front-end:latest
+              -t agiannellah/ah-front-end:$APP_VERSION
+              -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA .
+            - docker push agiannellah/ah-front-end:latest
+            - docker push agiannellah/ah-front-end:$APP_VERSION
+            - docker push agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
+          services:
+            - docker
     develop:
       - step:
           name: deploy-staging
@@ -51,7 +51,6 @@ pipelines:
     main:
       - step:
           name: deploy-production
-          trigger: manual
           script:
             - pipe: atlassian/ssh-run:0.4.1
               variables:
