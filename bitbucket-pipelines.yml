@@ -24,7 +24,7 @@ pipelines:
                 name: build & push-staging
                 script:
                   - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
-                  - export APP_VERSION="$(npm run version --silent) + -stage"
+                  - export APP_VERSION="$(npm run version --silent)-stage"
                   - echo $APP_VERSION
                   - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
                   - docker build 
@@ -60,7 +60,7 @@ pipelines:
                 name: build & push-staging
                 script:
                   - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
-                  - export APP_VERSION="$(npm run version --silent) + -prod"
+                  - export APP_VERSION="$(npm run version --silent)-prod"
                   - echo $APP_VERSION
                   - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
                   - docker build 
