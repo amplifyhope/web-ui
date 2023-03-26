@@ -31,7 +31,7 @@ pipelines:
                     -t agiannellah/ah-front-end:latest-stage
                     -t agiannellah/ah-front-end:$APP_VERSION
                     -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA .
-                  - docker push agiannellah/ah-front-end:latest
+                  - docker push agiannellah/ah-front-end:latest-stage
                   - docker push agiannellah/ah-front-end:$APP_VERSION
                   - docker push agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
                 services:
@@ -67,7 +67,7 @@ pipelines:
                     -t agiannellah/ah-front-end:latest-prod
                     -t agiannellah/ah-front-end:$APP_VERSION
                     -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA .
-                  - docker push agiannellah/ah-front-end:latest
+                  - docker push agiannellah/ah-front-end:latest-prod
                   - docker push agiannellah/ah-front-end:$APP_VERSION
                   - docker push agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
                 services:
