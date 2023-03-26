@@ -14,17 +14,18 @@ pipelines:
             variables:
               SNYK_TOKEN: $SNYK_TOKEN
               LANGUAGE: npm
-  pull-requests:
-    '**':
+  branches:
+    develop:
       - step:
-          name: build and push
+          name: build & push-staging
+          deployment: staging
           script:
             - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
-            - export APP_VERSION="$(npm run version --silent)"
+            - export APP_VERSION="$(npm run version --silent) + -stage"
             - echo $APP_VERSION
             - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
             - docker build 
-              -t agiannellah/ah-front-end:latest
+              -t agiannellah/ah-front-end:latest-stage
               -t agiannellah/ah-front-end:$APP_VERSION
               -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA .
             - docker push agiannellah/ah-front-end:latest
@@ -32,9 +33,9 @@ pipelines:
             - docker push agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
           services:
             - docker
-    'develop':
       - step:
           name: deploy-staging
+          deployment: staging
           script:
             - pipe: atlassian/ssh-run:0.4.1
               variables:
@@ -42,15 +43,33 @@ pipelines:
                 SERVER: $EC2_HOST_STAGE
                 COMMAND: |
                   echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
-                  docker pull agiannellah/ah-front-end:latest
+                  docker pull agiannellah/ah-front-end:latest-stage
                   docker stop amplify-hope-front-end
                   echo "amplify-hope-api container stopped"
                   docker rm amplify-hope-front-end
                   echo "amplify-hope-api container removed"
-                  docker run --name amplify-hope-front-end --env-file ~/.env/.ah-front-end.env -p 3000:3000 -d agiannellah/ah-front-end:latest
-    'main':
+                  docker run --name amplify-hope-front-end -p 3000:3000 -d agiannellah/ah-front-end:latest-stage
+    main:
+      - step:
+          name: build & push-staging
+          deployment: production
+          script:
+            - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
+            - export APP_VERSION="$(npm run version --silent) + -prod"
+            - echo $APP_VERSION
+            - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+            - docker build 
+              -t agiannellah/ah-front-end:latest-prod
+              -t agiannellah/ah-front-end:$APP_VERSION
+              -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA .
+            - docker push agiannellah/ah-front-end:latest
+            - docker push agiannellah/ah-front-end:$APP_VERSION
+            - docker push agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
+          services:
+            - docker    
       - step:
           name: deploy-production
+          deployment: production
           script:
             - pipe: atlassian/ssh-run:0.4.1
               variables:
@@ -58,9 +77,9 @@ pipelines:
                 SERVER: $EC2_HOST_PROD
                 COMMAND: |
                   echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
-                  docker pull agiannellah/ah-front-end:latest
+                  docker pull agiannellah/ah-front-end:latest-prod
                   docker stop amplify-hope-front-end
                   echo "amplify-hope-front-end container stopped"
                   docker rm amplify-hope-front-end
                   echo "amplify-hope-front-end container removed"              
-                  docker run --name amplify-hope-front-end --env-file ~/.env/.ah-front-end.env -p 3000:3000 -d agiannellah/ah-front-end:latest
+                  docker run --name amplify-hope-front-end -p 3000:3000 -d agiannellah/ah-front-end:latest-prod
