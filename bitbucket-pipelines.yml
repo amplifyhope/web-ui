@@ -30,7 +30,10 @@ pipelines:
                   - docker build 
                     -t agiannellah/ah-front-end:latest-stage
                     -t agiannellah/ah-front-end:$APP_VERSION
-                    -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA .
+                    -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA 
+                    --build-arg NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
+                    --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+                    --build-arg NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID=$NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID .
                   - docker push agiannellah/ah-front-end:latest-stage
                   - docker push agiannellah/ah-front-end:$APP_VERSION
                   - docker push agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
@@ -66,7 +69,10 @@ pipelines:
                   - docker build 
                     -t agiannellah/ah-front-end:latest-prod
                     -t agiannellah/ah-front-end:$APP_VERSION
-                    -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA .
+                    -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
+                    --build-arg NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
+                    --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+                    --build-arg NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID=$NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID .                    
                   - docker push agiannellah/ah-front-end:latest-prod
                   - docker push agiannellah/ah-front-end:$APP_VERSION
                   - docker push agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
