@@ -1,9 +1,16 @@
 # Amplify Hope Website Release Notes
 
+## v2.6.0
+
+- Added notes field to donation form
+
+## v2.5.0
+
+- Upgraded Node.JS to version 18
+
 ## v2.4.0
 
 - Removed Hope40
-- Upgraded Node.JS to version 18
 
 ## v2.3.0
 
