@@ -19,6 +19,7 @@ type FormValues = {
   amount: string
   interval: IntervalOptions
   fund: FundOptions
+  notes: string
 }
 
 const intervalOptions: IntervalOptions[] = [
@@ -34,14 +35,15 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
   const [loading, setLoading] = useState<boolean>(false)
 
   return (
-    <div className='w-full p-6 mt-2 bg-white rounded shadow-md lg:h-96'>
+    <div className='w-full p-6 mt-2 bg-white rounded shadow-md'>
       <Formik
         enableReinitialize={true}
         initialValues={{
           email: '',
           amount: '',
           interval: '',
-          fund: ''
+          fund: '',
+          notes: ''
         }}
         validationSchema={
           isRecurring ? RecurringDonationSchema : OneTimeDonationSchema
@@ -56,7 +58,8 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
             email: formValues.email,
             amount,
             interval: isRecurring ? formValues.interval : undefined,
-            fund: formValues.fund
+            fund: formValues.fund,
+            notes: formValues.notes
           }
 
           const response = await fetchJson(
@@ -200,6 +203,21 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
                   </div>
                   <ErrorMessage
                     name='fund'
+                    className='text-sm text-red-500'
+                    component='a'
+                  />
+                </div>
+                <div className='mb-4'>
+                  <label>Notes</label>
+                  <Field
+                    id='notes'
+                    value={props.values.notes}
+                    onChange={props.handleChange}
+                    name='notes'
+                    className='w-full px-3 py-2 bg-white border rounded-md shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 sm:text-sm focus:ring-1'
+                  />
+                  <ErrorMessage
+                    name='notes'
                     className='text-sm text-red-500'
                     component='a'
                   />
