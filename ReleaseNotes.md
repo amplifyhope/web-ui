@@ -3,6 +3,7 @@
 ## v2.4.0
 
 - Removed Hope40
+- Upgraded Node.JS to version 18
 
 ## v2.3.0
 
