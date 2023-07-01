@@ -1,4 +1,4 @@
-image: node:16-alpine
+image: node:18-alpine
 
 pipelines:
   default:
@@ -7,3 +7,89 @@ pipelines:
         script:
           - yarn add -D ts-mocha
           - yarn test:unit
+    - step:
+        name: snyk
+        script:
+          - pipe: snyk/snyk-scan:0.5.3
+            variables:
+              SNYK_TOKEN: $SNYK_TOKEN
+              LANGUAGE: npm
+  branches:
+    develop:
+      - stage:
+          name: deploy-staging
+          deployment: staging
+          steps:
+            - step:
+                name: build & push-staging
+                script:
+                  - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
+                  - export APP_VERSION="$(npm run version --silent)-stage"
+                  - echo $APP_VERSION
+                  - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+                  - docker build 
+                    -t agiannellah/ah-front-end:latest-stage
+                    -t agiannellah/ah-front-end:$APP_VERSION
+                    -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA 
+                    --build-arg NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
+                    --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+                    --build-arg NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID=$NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID .
+                  - docker push agiannellah/ah-front-end:latest-stage
+                  - docker push agiannellah/ah-front-end:$APP_VERSION
+                  - docker push agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
+                services:
+                  - docker
+            - step:
+                name: deploy-staging
+                script:
+                  - pipe: atlassian/ssh-run:0.4.1
+                    variables:
+                      SSH_USER: $EC2_USER
+                      SERVER: $EC2_HOST_STAGE
+                      COMMAND: |
+                        echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+                        docker pull agiannellah/ah-front-end:latest-stage
+                        docker stop amplify-hope-front-end
+                        echo "amplify-hope-api container stopped"
+                        docker rm amplify-hope-front-end
+                        echo "amplify-hope-api container removed"
+                        docker run --name amplify-hope-front-end -p 3000:3000 -d agiannellah/ah-front-end:latest-stage
+    main:
+      - stage:
+          name: deploy-production
+          deployment: production
+          steps:
+            - step:
+                name: build & push-production
+                script:
+                  - export BITBUCKET_COMMIT_SHORT_SHA="${BITBUCKET_COMMIT::7}"
+                  - export APP_VERSION="$(npm run version --silent)-prod"
+                  - echo $APP_VERSION
+                  - echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+                  - docker build 
+                    -t agiannellah/ah-front-end:latest-prod
+                    -t agiannellah/ah-front-end:$APP_VERSION
+                    -t agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
+                    --build-arg NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
+                    --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+                    --build-arg NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID=$NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID .                    
+                  - docker push agiannellah/ah-front-end:latest-prod
+                  - docker push agiannellah/ah-front-end:$APP_VERSION
+                  - docker push agiannellah/ah-front-end:$BITBUCKET_COMMIT_SHORT_SHA
+                services:
+                  - docker    
+            - step:
+                name: deploy-production
+                script:
+                  - pipe: atlassian/ssh-run:0.4.1
+                    variables:
+                      SSH_USER: $EC2_USER
+                      SERVER: $EC2_HOST_PROD
+                      COMMAND: |
+                        echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin
+                        docker pull agiannellah/ah-front-end:latest-prod
+                        docker stop amplify-hope-front-end
+                        echo "amplify-hope-front-end container stopped"
+                        docker rm amplify-hope-front-end
+                        echo "amplify-hope-front-end container removed"              
+                        docker run --name amplify-hope-front-end -p 3000:3000 -d agiannellah/ah-front-end:latest-prod
