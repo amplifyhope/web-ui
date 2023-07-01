@@ -22,7 +22,7 @@ const Donate = () => {
           </div>
         </div>
       </section>
-      <section className='h-[65vh] flex items-center justify-center'>
+      <section className='flex items-center justify-center py-8'>
         <div className='flex flex-col items-center justify-center w-full lg:w-1/2 lg:ml-4'>
           <div className='flex items-center justify-between w-full my-4 lg:h-20'>
             <button
