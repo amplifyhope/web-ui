@@ -1,6 +1,5 @@
 import { ReactElement } from 'react'
 import type { AppProps } from 'next/app'
-import Script from 'next/script'
 import { Favicon, Header } from 'components'
 import Head from 'next/head'
 import '../styles/globals.css'
@@ -25,24 +24,6 @@ export default function MyApp({
           crossOrigin='anonymous'
         />
       </Head>
-      <Script
-        strategy='afterInteractive'
-        src='https://www.googletagmanager.com/'
-      />
-      <Script
-        id='google-analytics'
-        strategy='afterInteractive'
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];cd ../
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', ${process.env.NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID}', {
-            page_path: window.location.pathname,
-          });
-        `
-        }}
-      />
       <div>
         <Header />
         <Component {...pageProps} />
