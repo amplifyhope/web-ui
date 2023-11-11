@@ -1,5 +1,9 @@
 # Amplify Hope Website Release Notes
 
+## v2.7.0
+
+- Added link to manage giving
+
 ## v2.6.0
 
 - Added notes field to donation form
