@@ -1,43 +1,113 @@
-default:
-  before_script:
-    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
-    - eval $(ssh-agent -s)
-    - chmod 400 "$EC2_SSH_KEY"
-    - ssh-add "$EC2_SSH_KEY"
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-
 stages:
-  - build
   - test
-  - deploy
+  - build:staging
+  - deploy:staging
+  - build:production
+  - deploy:production
 
-build:
-  stage: build
-  script:
-    - echo "Compiling the code..."
-    - echo "Compile complete."
+variables:
+  NODE_CONTAINER: node:18-alpine
+  DOCKER_CONTAINER: docker:24.0.7
 
 test:unit:
   stage: test
+  image: ${NODE_CONTAINER}
+  before_script:
+    - apk add --no-cache make g++ python3
   script:
-    - echo "Running unit tests... This will take about 60 seconds."
-    - sleep 60
-    - echo "Code coverage is 90%"
+    - yarn
+    - yarn test:unit
 
-deploy-staging:
-  stage: deploy
-  environment:
-    name: staging
+test:snyk:
+  stage: test
+  image: ${NODE_CONTAINER}
   script:
-    - echo "Deploying to staging..."
-    - echo "Successfully deployed to staging"
+    - npm install -g npm@latest
+    - npm install -g snyk
+    - snyk auth ${SNYK_TOKEN}
+    - snyk test --all-projects
+    - snyk code test
+  allow_failure: true
 
-deploy-production:
-  stage: deploy
-  environment:
-    name: production
+build:staging:
+  stage: build:staging
+  image: ${DOCKER_CONTAINER}
+  environment: staging
+  services:
+    - ${DOCKER_CONTAINER}-dind
+  before_script:
+    - echo ${DOCKER_HUB_TOKEN} | docker login -u agiannellah --password-stdin
+  script:
+    - docker build 
+      -t agiannellah/ah-web-ui:latest-staging
+      -t agiannellah/ah-web-ui:staging-${CI_COMMIT_SHORT_SHA}
+      --build-arg NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
+      --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+      --build-arg NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID=$NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID .
+    - docker push agiannellah/ah-web-ui:latest-staging
+    - docker push agiannellah/ah-web-ui:staging-${CI_COMMIT_SHORT_SHA}
+
+deploy:staging:
+  stage: deploy:staging
+  image: alpine:latest
+  environment: staging
+  before_script:
+    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
+    - eval $(ssh-agent -s)
+    - echo "$EC2_SSH_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $EC2_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - ssh $EC2_USER@$EC2_HOST "
+      echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin;
+      docker pull agiannellah/ah-web-ui:latest-staging;
+      docker stop amplify-hope-front-end;
+      echo 'amplify-hope-api container stopped';
+      docker rm amplify-hope-front-end;
+      echo 'amplify-hope-api container removed';
+      docker run --name amplify-hope-front-end -p 3002:3002 -d agiannellah/ah-web-ui:latest-staging;"
+
+build:production:
+  stage: build:production
+  image: ${DOCKER_CONTAINER}
   when: manual
+  environment: production
+  services:
+    - ${DOCKER_CONTAINER}-dind
+  before_script:
+    - echo ${DOCKER_HUB_TOKEN} | docker login -u agiannellah --password-stdin
   script:
-    - echo "Deploying to production..."
-    - echo "Successfully deployed to production"
+    - docker build 
+      -t agiannellah/ah-web-ui:latest-prod
+      -t agiannellah/ah-web-ui:prod-${CI_COMMIT_SHORT_SHA}
+      --build-arg NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
+      --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+      --build-arg NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID=$NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID .
+    - docker push agiannellah/ah-web-ui:latest-prod
+    - docker push agiannellah/ah-web-ui:prod-${CI_COMMIT_SHORT_SHA}
+
+deploy:production:
+  stage: deploy:production
+  image: alpine:latest
+  when: manual
+  environment: production
+  before_script:
+    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
+    - eval $(ssh-agent -s)
+    - echo "$EC2_SSH_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $EC2_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - ssh $EC2_USER@$EC2_HOST "
+      echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin;
+      docker pull agiannellah/ah-web-ui:latest-prod;
+      docker stop amplify-hope-front-end;
+      echo 'amplify-hope-api container stopped';
+      docker rm amplify-hope-front-end;
+      echo 'amplify-hope-api container removed';
+      docker run --name amplify-hope-front-end -p 3002:3002 -d agiannellah/ah-web-ui:latest-prod;"
+      
