@@ -44,7 +44,8 @@ build:staging:
       --build-arg NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
       --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
       --build-arg NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID=$NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID
-      --build-arg NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN .
+      --build-arg NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN
+      --build-arg NODE_ENV=$CI_ENVIRONMENT_NAME .
     - docker push agiannellah/ah-web-ui:latest-staging
     - docker push agiannellah/ah-web-ui:staging-${CI_COMMIT_SHORT_SHA}
   rules:
@@ -90,7 +91,8 @@ build:production:
       --build-arg NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
       --build-arg NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
       --build-arg NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID=$NEXT_PUBLIC_GOOGLE_MEASUREMENT_ID
-      --build-arg NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN .
+      --build-arg NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN
+      --build-arg NODE_ENV=$CI_ENVIRONMENT_NAME .
     - docker push agiannellah/ah-web-ui:latest-prod
     - docker push agiannellah/ah-web-ui:prod-${CI_COMMIT_SHORT_SHA}
   rules:
