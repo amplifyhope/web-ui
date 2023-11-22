@@ -6,5 +6,5 @@ Sentry.init({
   tracesSampleRate: 1.0,
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
-  environment: process.env.NODE_ENV
+  environment: process.env.NEXT_PUBLIC_NODE_ENV
 })
