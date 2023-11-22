@@ -38,7 +38,7 @@ build:staging:
   before_script:
     - echo ${DOCKER_HUB_TOKEN} | docker login -u agiannellah --password-stdin
   script:
-    - docker build 
+    - docker build
       -t agiannellah/ah-web-ui:latest-staging
       -t agiannellah/ah-web-ui:staging-${CI_COMMIT_SHORT_SHA}
       --build-arg NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
@@ -48,7 +48,7 @@ build:staging:
     - docker push agiannellah/ah-web-ui:latest-staging
     - docker push agiannellah/ah-web-ui:staging-${CI_COMMIT_SHORT_SHA}
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"    
+    - if: $CI_COMMIT_BRANCH == "main"
 
 deploy:staging:
   stage: deploy:staging
@@ -72,7 +72,7 @@ deploy:staging:
       echo 'amplify-hope-api container removed';
       docker run --name amplify-hope-front-end -p 3000:3000 -d agiannellah/ah-web-ui:latest-staging;"
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"    
+    - if: $CI_COMMIT_BRANCH == "main"
 
 build:production:
   stage: build:production
@@ -84,7 +84,7 @@ build:production:
   before_script:
     - echo ${DOCKER_HUB_TOKEN} | docker login -u agiannellah --password-stdin
   script:
-    - docker build 
+    - docker build
       -t agiannellah/ah-web-ui:latest-prod
       -t agiannellah/ah-web-ui:prod-${CI_COMMIT_SHORT_SHA}
       --build-arg NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
@@ -94,7 +94,7 @@ build:production:
     - docker push agiannellah/ah-web-ui:latest-prod
     - docker push agiannellah/ah-web-ui:prod-${CI_COMMIT_SHORT_SHA}
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"    
+    - if: $CI_COMMIT_BRANCH == "main"
 
 deploy:production:
   stage: deploy:production
@@ -119,4 +119,4 @@ deploy:production:
       echo 'amplify-hope-api container removed';
       docker run --name amplify-hope-front-end -p 3000:3000 -d agiannellah/ah-web-ui:latest-prod;"
   rules:
-    - if: $CI_COMMIT_BRANCH == "main"    
+    - if: $CI_COMMIT_BRANCH == "main"
