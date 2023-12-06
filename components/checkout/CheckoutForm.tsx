@@ -43,7 +43,7 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
           amount: '',
           interval: '',
           fund: '',
-          notes: ''
+          notes: ' '
         }}
         validationSchema={
           isRecurring ? RecurringDonationSchema : OneTimeDonationSchema
