@@ -26,8 +26,8 @@ export const Footer = () => {
           className='md:h-12 md:mb-4'
         />
         <div className='text-xs text-center text-white md:text-left'>
-          <p>P.O. Box 231 Kuna, ID 83634</p>
-          <p>©2022 Amplify Hope is a US 501(c)(3) non-profit,</p>
+          <p>1577 N. Linder Rd. #219 Kuna, ID 83634</p>
+          <p>©2024 Amplify Hope is a US 501(c)(3) non-profit,</p>
           <p>EIN 87-2385986</p>
         </div>
       </div>
