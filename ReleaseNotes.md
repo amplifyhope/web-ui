@@ -2,7 +2,10 @@
 
 ## v2.7.0
 
+- Upgraded Node.JS to version 20
 - Added link to manage giving
+- Added sign in page
+- Added verify email page
 
 ## v2.6.0
 
