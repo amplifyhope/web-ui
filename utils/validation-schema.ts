@@ -24,3 +24,12 @@ export const RecurringDonationSchema = yup
     notes: yup.string().optional()
   })
   .required()
+
+export const LoginWithEmailSchema = yup
+  .object({
+    email: yup
+      .string()
+      .email('Please enter a valid email address.')
+      .required('Required')
+  })
+  .required()

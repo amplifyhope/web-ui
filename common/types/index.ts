@@ -6,6 +6,10 @@ export type DonationRequestBody = {
   notes?: string
 }
 
+export type LoginWithEmailRequestBody = {
+  email: string
+}
+
 export enum IntervalOptions {
   month = 'month',
   quarter = 'quarter',
