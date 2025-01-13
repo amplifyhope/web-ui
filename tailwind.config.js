@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       backgroundImage: {
         'homepage-main': "url('/images/homepage-main-background.jpeg')",
+        'learn-more-1': "url('/images/homepage-learn-more-1.jpeg')",
         'learn-more-2': "url('/images/homepage-learn-more-2.jpeg')",
         'samson-family': "url('/images/samson-family.jpeg')",
         donate: "url('/images/donate-background.jpeg')"
@@ -27,6 +28,15 @@ module.exports = {
         'errorColor-500': '#cd030d',
         'errorColor-600': '#b8020b',
         background: '#fafafa',
+        'background-100': '#fefefe',
+        'background-200': '#fdfdfd',
+        'background-300': '#fcfcfc',
+        'background-400': '#fbfbfb',
+        'background-500': '#fafafa',
+        'background-600': '#e1e1e1',
+        'background-700': '#c8c8c8',
+        'background-800': '#afafaf',
+        'background-900': '#969696',
         ahBlue: '#0059a1',
         ahGray: '#79777a'
       }
