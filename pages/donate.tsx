@@ -1,4 +1,6 @@
+import { IconSettingsDollar } from '@tabler/icons-react'
 import { CheckoutForm, Footer } from 'components'
+import Link from 'next/link'
 import { useState } from 'react'
 
 const Donate = () => {
@@ -43,6 +45,9 @@ const Donate = () => {
             </button>
           </div>
           <CheckoutForm isRecurring={isRecurring} />
+          <Link className='mt-8 flex' href='/auth/signin'>
+            <IconSettingsDollar className='mr-2' /> Manage my giving
+          </Link>
         </div>
       </section>
       <Footer />
