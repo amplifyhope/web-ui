@@ -24,6 +24,7 @@
     "@sentry/nextjs": "^7.81.1",
     "@stripe/react-stripe-js": "^1.7.0",
     "@stripe/stripe-js": "^1.22.0",
+    "@tabler/icons-react": "^3.28.1",
     "formik": "^2.2.9",
     "micro": "^9.3.4",
     "next": "^13.0.5",
