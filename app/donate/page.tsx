@@ -1,3 +1,5 @@
+'use client'
+
 import { IconSettingsDollar } from '@tabler/icons-react'
 import { CheckoutForm, Footer } from 'components'
 import Link from 'next/link'

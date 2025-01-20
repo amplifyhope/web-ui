@@ -1,8 +1,9 @@
-import { Button, Footer } from 'components'
-import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
+'use client'
 
-const Home: NextPage = () => {
+import { Button, Footer } from 'components'
+import { useRouter } from 'next/navigation'
+
+export default function Home() {
   const router = useRouter()
   return (
     <div>
@@ -90,5 +91,3 @@ const Home: NextPage = () => {
     </div>
   )
 }
-
-export default Home
