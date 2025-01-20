@@ -1,5 +1,9 @@
 # Amplify Hope Website Release Notes
 
+## v2.7.1
+
+- Upgraded dependencies
+
 ## v2.7.0
 
 - Upgraded Node.JS to version 20
