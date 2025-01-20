@@ -12,7 +12,7 @@ const nextConfig = {
 
 const sentryWebpackPluginOptions = {
   org: 'amplifyhope',
-  project: 'web-api'
+  project: 'web-ui'
 }
 
 module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions)
