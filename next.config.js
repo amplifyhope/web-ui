@@ -12,7 +12,8 @@ const nextConfig = {
 
 const sentryWebpackPluginOptions = {
   org: 'amplifyhope',
-  project: 'web-ui'
+  project: 'web-ui',
+  authToken: process.env.SENTRY_AUTH_TOKEN
 }
 
 module.exports = withSentryConfig(nextConfig, sentryWebpackPluginOptions)
