@@ -4,7 +4,7 @@ import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik'
 import { useState } from 'react'
 import fetchJson from 'utils/fetchJson'
 import { LoginWithEmailSchema } from 'utils/validation-schema'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 type FormValues = {
   email: string
@@ -40,10 +40,7 @@ export const LoginWithEmailForm = () => {
           setLoading(false)
           setSubmitting(false)
 
-          router.push({
-            pathname: '/auth/verify',
-            query: { email: formValues.email }
-          })
+          router.push(`/auth/verify?email=${formValues.email}`)
         }}
       >
         {props => {

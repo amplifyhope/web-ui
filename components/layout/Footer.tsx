@@ -1,12 +1,13 @@
-import { useRouter } from 'next/router'
+import { useRouter, usePathname } from 'next/navigation'
 import { Button } from 'components'
 
 export const Footer = () => {
   const router = useRouter()
+  const pathname = usePathname()
 
   return (
     <footer className='bg-primary-500 w-full h-[50vh] md:h-40 flex flex-col md:flex-row-reverse items-center justify-center md:justify-between md:px-24'>
-      {router.pathname !== '/donate' ? (
+      {pathname !== '/donate' ? (
         <div className='w-10/12 mb-20 md:w-auto md:mb-0'>
           <Button
             color='secondary'

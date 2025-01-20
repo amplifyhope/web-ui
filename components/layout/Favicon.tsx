@@ -1,4 +1,6 @@
-export const Favicon = (): JSX.Element => {
+import React from 'react'
+
+export const Favicon = (): React.JSX.Element => {
   return (
     <>
       <link
