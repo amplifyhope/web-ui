@@ -1,4 +1,4 @@
-import Router from 'next/router'
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { alertService } from './alerts'
 
 class ResponseError extends Error {
@@ -9,8 +9,7 @@ class ResponseError extends Error {
 export default async function fetchJson(
   path: string,
   args: any,
-  modelName: string = '',
-  redirectOnCreate = true
+  modelName: string = ''
 ) {
   const alertOptions = {
     id: 'global-alerts',
@@ -32,13 +31,6 @@ export default async function fetchJson(
     if (response.status === 201) {
       if (modelName) {
         alertService.success(`${modelName} created`, alertOptions)
-      }
-      const url = response.headers.get('Location')
-      if (url && redirectOnCreate) {
-        return Router.push(url)
-      }
-      if (url && !redirectOnCreate) {
-        return url.split('/').pop()
       }
     }
 

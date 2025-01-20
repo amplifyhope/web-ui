@@ -1,8 +1,10 @@
-import { Button, Footer } from 'components'
-import type { NextPage } from 'next'
-import { useRouter } from 'next/router'
+'use client'
 
-const Home: NextPage = () => {
+import { Button, Footer } from 'components'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+
+export default function Home() {
   const router = useRouter()
   return (
     <div>
@@ -63,25 +65,25 @@ const Home: NextPage = () => {
               someone&apos;s life through giving, then you&apos;ve reached the
               right page. For more information about the Samsons or our
               projects, you can visit the following websites:{' '}
-              <a
+              <Link
                 href='https://www.samsonadventures.com/'
                 target='_blank'
                 rel='noreferrer'
               >
                 samsonadventures.com
-              </a>{' '}
+              </Link>{' '}
               or{' '}
-              <a
+              <Link
                 href='https://www.iservicecorps.org/'
                 target='_blank'
                 rel='noreferrer'
               >
                 iservicecorps.org
-              </a>
+              </Link>
               . If you&apos;d like to be involved as a volunteer, please contact
               the Samsons at{' '}
-              <a href='mailto:info@amplifyhope.cc'>info@amplifyhope.cc</a>.
-              Blessings to you all!
+              <Link href='mailto:info@amplifyhope.cc'>info@amplifyhope.cc</Link>
+              . Blessings to you all!
             </p>
           </div>
         </div>
@@ -90,5 +92,3 @@ const Home: NextPage = () => {
     </div>
   )
 }
-
-export default Home

@@ -2,7 +2,7 @@ export const formatAmountForDisplay = (
   amount: number,
   currency: string
 ): string => {
-  let numberFormat = new Intl.NumberFormat(['en-US'], {
+  const numberFormat = new Intl.NumberFormat(['en-US'], {
     style: 'currency',
     currency,
     currencyDisplay: 'symbol'
@@ -14,7 +14,7 @@ export const formatAmountForDisplayFromStripe = (
   amount: number,
   currency: string
 ): string => {
-  let numberFormat = new Intl.NumberFormat(['en-US'], {
+  const numberFormat = new Intl.NumberFormat(['en-US'], {
     style: 'currency',
     currency,
     currencyDisplay: 'symbol'

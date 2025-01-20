@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { GetServerSideProps } from 'next'
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { getCheckoutSession } from 'services/checkout'
 import { formatAmountForDisplayFromStripe } from 'utils/stripe-helpers'
 import { CURRENCY } from 'config'
 import Stripe from 'stripe'
 
-const Result = props => {
-  const { id } = props
+const Result = () => {
+  const params = useParams<{ id: string }>()
+  const { id } = params!
   const [session, setSession] = useState<Stripe.Checkout.Session>()
   const [loading, setLoading] = useState<boolean>(false)
 
@@ -56,16 +57,6 @@ const Result = props => {
       </div>
     </div>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async context => {
-  const { id } = context.query
-
-  return {
-    props: {
-      id
-    }
-  }
 }
 
 export default Result
