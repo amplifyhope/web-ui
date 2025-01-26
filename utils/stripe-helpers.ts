@@ -24,8 +24,6 @@ export const formatAmountForDisplayFromStripe = (
   return numberFormat.format(amount / 100)
 }
 
-export const calculateStripeFees = (amount: number): number => {
-  return Number(
-    (amount * STRIPE_FEE_PERCENT_MODIFIER + STRIPE_FEE_FIXED).toFixed(2)
-  )
+export const calculateStripeFees = (amount: number): string => {
+  return (amount * STRIPE_FEE_PERCENT_MODIFIER + STRIPE_FEE_FIXED).toFixed(2)
 }
