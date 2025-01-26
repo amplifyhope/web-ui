@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik'
-import { formatAmountForDisplay } from 'utils/stripe-helpers'
-import getStripe from 'utils/get-stripejs'
+import { DonationRequestBody, FundOptions, IntervalOptions } from 'common/types'
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik'
+import { useState } from 'react'
 import fetchJson from 'utils/fetchJson'
+import getStripe from 'utils/get-stripejs'
+import {
+  calculateStripeFees,
+  formatAmountForDisplay
+} from 'utils/stripe-helpers'
 import {
   OneTimeDonationSchema,
   RecurringDonationSchema
 } from 'utils/validation-schema'
-import { DonationRequestBody, IntervalOptions, FundOptions } from 'common/types'
 import * as config from '../../config'
 
 type CheckoutFormProps = {
@@ -17,6 +20,8 @@ type CheckoutFormProps = {
 type FormValues = {
   email: string
   amount: string
+  fees: string
+  coverFees: boolean
   interval: IntervalOptions
   fund: FundOptions
   notes: string
@@ -41,6 +46,8 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
         initialValues={{
           email: '',
           amount: '',
+          fees: '0',
+          coverFees: false,
           interval: '',
           fund: '',
           notes: ' '
@@ -53,7 +60,11 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
           { setSubmitting }: FormikHelpers<FormValues>
         ) => {
           setLoading(true)
-          const amount: number = +formValues.amount
+
+          const amount = !formValues.coverFees
+            ? Number(formValues.amount)
+            : Number(Number(formValues.amount) + Number(formValues.fees))
+
           const requestBody: DonationRequestBody = {
             email: formValues.email,
             amount,
@@ -87,7 +98,14 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
             <Form className='flex flex-col items-center justify-between w-full h-full'>
               <div className='w-full'>
                 <div className='mb-4'>
-                  <label>Email</label>
+                  <div className='flex items-center justify-between'>
+                    <label>Email</label>
+                    <ErrorMessage
+                      name='email'
+                      className='text-sm text-red-500'
+                      component='div'
+                    />
+                  </div>
                   <Field
                     id='email'
                     value={props.values.email}
@@ -97,19 +115,17 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
                     placeholder='user@example.com'
                     className='w-full px-3 py-2 bg-white border rounded-md shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 sm:text-sm focus:ring-1'
                   />
-                  <ErrorMessage
-                    name='email'
-                    className='text-sm text-red-500'
-                    component='a'
-                  />
                 </div>
-                <div className='flex flex-col items-start justify-between w-full mb-4 lg:flex-row lg:items-center'>
-                  <div
-                    className={`${
-                      isRecurring ? 'w-full lg:w-1/2 lg:mr-2' : 'w-full'
-                    }`}
-                  >
-                    <label>Amount</label>
+                <div className='flex items-center justify-start w-full mb-4 lg:flex-row lg:items-center'>
+                  <div className='w-2/3'>
+                    <div className='flex items-center justify-between'>
+                      <label>Amount</label>
+                      <ErrorMessage
+                        name='amount'
+                        className='text-sm text-red-500'
+                        component='div'
+                      />
+                    </div>
                     <Field
                       id='donation'
                       value={props.values.amount}
@@ -117,18 +133,91 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
                       placeholder='Donation Amount'
                       min={config.MIN_AMOUNT}
                       max={config.MAX_AMOUNT}
-                      onChange={props.handleChange}
+                      onChange={e => {
+                        props.handleChange(e)
+                        props.setFieldValue(
+                          'fees',
+                          calculateStripeFees(+e.target.value)
+                        )
+                      }}
                       className='w-full px-3 py-2 bg-white border rounded-md shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 sm:text-sm focus:ring-1'
                     />
-                    <ErrorMessage
-                      name='amount'
-                      className='text-sm text-red-500'
-                      component='a'
-                    />
+                  </div>
+                  <div className={`ml-4 mt-6`}>
+                    <label className='flex items-center justify-center cursor-pointer'>
+                      <Field
+                        type='checkbox'
+                        name='coverFees'
+                        className='sr-only peer'
+                      />
+                      <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-ahBlue"></div>
+                      <span className='ms-2 text-sm'>
+                        Cover Fees{' '}
+                        {props.values.amount
+                          ? `$${props.values.fees.toString()}`
+                          : ''}
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div className='flex flex-col items-start justify-between w-full mb-4 lg:flex-row lg:items-center'>
+                  <div
+                    className={`${
+                      isRecurring
+                        ? 'relative w-full lg:w-1/2 lg:mr-2'
+                        : 'relative w-full'
+                    }`}
+                  >
+                    <div className='flex items-center justify-between'>
+                      <label>Fund</label>
+                      <ErrorMessage
+                        name='fund'
+                        className='text-sm text-red-500'
+                        component='div'
+                      />
+                    </div>
+                    <Field
+                      as='select'
+                      id='fund'
+                      onChange={props.handleChange}
+                      name='fund'
+                      className='w-full px-3 py-2 leading-tight text-gray-700 border rounded-md shadow-sm appearance-none border-slate-300 focus:outline-none focus:border-sky-500 focus:ring-sky-500 sm:text-sm focus:ring-1'
+                    >
+                      <option
+                        value=''
+                        disabled
+                        selected
+                        hidden
+                        className='text-slate-400'
+                      >
+                        Choose a Fund
+                      </option>
+                      {fundOptions.map((option, index) => (
+                        <option key={index} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </Field>
+                    <div className='absolute inset-y-0 right-0 flex items-center px-2 mt-5 text-slate-700 pointer-events-none'>
+                      <svg
+                        className='w-4 h-4 fill-current'
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox='0 0 20 20'
+                      >
+                        <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
+                      </svg>
+                    </div>
                   </div>
                   {isRecurring && (
                     <div className='relative w-full mt-4 lg:w-1/2 lg:ml-2 lg:mt-0'>
-                      <label>Interval</label>
+                      <div className='flex items-center justify-between'>
+                        <label>Interval</label>
+                        <ErrorMessage
+                          name='interval'
+                          className='text-sm text-red-500'
+                          component='div'
+                        />
+                      </div>
                       <Field
                         as='select'
                         id='interval'
@@ -151,11 +240,7 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
                           </option>
                         ))}
                       </Field>
-                      <ErrorMessage
-                        name='interval'
-                        className='text-sm text-red-500'
-                        component='a'
-                      />
+
                       <div className='absolute inset-y-0 right-0 flex items-center px-2 mt-5 text-gray-700 pointer-events-none'>
                         <svg
                           className='w-4 h-4 fill-current'
@@ -168,58 +253,21 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
                     </div>
                   )}
                 </div>
-                <div className='relative mb-4'>
-                  <label>Fund</label>
-                  <Field
-                    as='select'
-                    id='fund'
-                    onChange={props.handleChange}
-                    name='fund'
-                    className='w-full px-3 py-2 leading-tight text-gray-700 border rounded-md shadow-sm appearance-none border-slate-300 focus:outline-none focus:border-sky-500 focus:ring-sky-500 sm:text-sm focus:ring-1'
-                  >
-                    <option
-                      value=''
-                      disabled
-                      selected
-                      hidden
-                      className='text-slate-400'
-                    >
-                      Choose a Fund
-                    </option>
-                    {fundOptions.map((option, index) => (
-                      <option key={index} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </Field>
-                  <div className='absolute inset-y-0 right-0 flex items-center px-2 mt-5 text-gray-700 pointer-events-none'>
-                    <svg
-                      className='w-4 h-4 fill-current'
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 20 20'
-                    >
-                      <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
-                    </svg>
-                  </div>
-                  <ErrorMessage
-                    name='fund'
-                    className='text-sm text-red-500'
-                    component='a'
-                  />
-                </div>
                 <div className='mb-4'>
-                  <label>Notes</label>
+                  <div className='flex items-center justify-between'>
+                    <label>Notes</label>
+                    <ErrorMessage
+                      name='notes'
+                      className='text-sm text-red-500'
+                      component='div'
+                    />
+                  </div>
                   <Field
                     id='notes'
                     value={props.values.notes}
                     onChange={props.handleChange}
                     name='notes'
                     className='w-full px-3 py-2 bg-white border rounded-md shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 sm:text-sm focus:ring-1'
-                  />
-                  <ErrorMessage
-                    name='notes'
-                    className='text-sm text-red-500'
-                    component='a'
                   />
                 </div>
               </div>
@@ -229,7 +277,14 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
                 className='w-full py-2 mt-4 border border-solid rounded border-primary hover:bg-black/10 text-primary'
               >
                 Donate{' '}
-                {formatAmountForDisplay(+props.values.amount, config.CURRENCY)}{' '}
+                {formatAmountForDisplay(
+                  !props.values.coverFees
+                    ? Number(props.values.amount)
+                    : Number(
+                        Number(props.values.amount) + Number(props.values.fees)
+                      ),
+                  config.CURRENCY
+                )}{' '}
               </button>
             </Form>
           )
