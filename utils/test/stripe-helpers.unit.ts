@@ -15,6 +15,6 @@ describe('#stripeHelpers', () => {
   })
 
   it('should calculate processing fees correctly', () => {
-    expect(calculateStripeFees(256.27)).to.eq(5.94)
+    expect(calculateStripeFees(256.27)).to.eq('5.94')
   })
 })
