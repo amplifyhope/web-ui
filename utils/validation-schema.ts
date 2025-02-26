@@ -9,7 +9,8 @@ export const OneTimeDonationSchema = yup
     amount: yup.number().required('Please enter a valid amount.'),
     coverFees: yup.boolean().required(),
     fund: yup.string().required('Please specify a fund to donate to.'),
-    notes: yup.string().optional()
+    notes: yup.string().optional(),
+    isRecurring: yup.boolean()
   })
   .required()
 
@@ -23,7 +24,8 @@ export const RecurringDonationSchema = yup
     coverFees: yup.boolean().required(),
     interval: yup.string().required('Please select an interval'),
     fund: yup.string().required('Please specify a fund to donate to.'),
-    notes: yup.string().optional()
+    notes: yup.string().optional(),
+    isRecurring: yup.boolean()
   })
   .required()
 

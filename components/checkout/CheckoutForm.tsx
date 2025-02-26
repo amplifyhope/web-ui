@@ -1,6 +1,8 @@
-import { DonationRequestBody, FundOptions, IntervalOptions } from 'common/types'
+import axios from 'axios'
+import { DonationRequestBody, IntervalOptions } from 'common/types'
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik'
 import { useState } from 'react'
+import useSWR from 'swr'
 import fetchJson from 'utils/fetchJson'
 import getStripe from 'utils/get-stripejs'
 import {
@@ -17,14 +19,25 @@ type CheckoutFormProps = {
   isRecurring: boolean
 }
 
+type Product = {
+  stripeId: string
+  productName: string
+  productType: 'one-time' | 'recurring'
+}
+
+type ProductsResponse = {
+  products: Product[]
+}
+
 type FormValues = {
   email: string
   amount: string
   fees: string
   coverFees: boolean
   interval: IntervalOptions
-  fund: FundOptions
+  fund: string
   notes: string
+  isRecurring: boolean
 }
 
 const intervalOptions: IntervalOptions[] = [
@@ -33,11 +46,20 @@ const intervalOptions: IntervalOptions[] = [
   IntervalOptions.year
 ]
 
-const fundOptions: FundOptions[] = [FundOptions.general]
-
 export const CheckoutForm = (props: CheckoutFormProps) => {
   const { isRecurring } = props
   const [loading, setLoading] = useState<boolean>(false)
+  const {
+    data: fundOptions,
+    error,
+    isLoading
+  } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/${isRecurring ? 'recurring' : 'one-time'}`,
+    url => axios.get<ProductsResponse>(url).then(res => res.data)
+  )
+
+  if (isLoading) return <div>Loading...</div>
+  if (error) return <div>Error: {error.message}</div>
 
   return (
     <div className='w-full p-6 mt-2 bg-white rounded shadow-md'>
@@ -50,7 +72,8 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
           coverFees: false,
           interval: '',
           fund: '',
-          notes: ' '
+          notes: ' ',
+          isRecurring
         }}
         validationSchema={
           isRecurring ? RecurringDonationSchema : OneTimeDonationSchema
@@ -68,15 +91,14 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
           const requestBody: DonationRequestBody = {
             email: formValues.email,
             amount,
-            interval: isRecurring ? formValues.interval : undefined,
-            fund: formValues.fund,
-            notes: formValues.notes
+            interval: isRecurring ? formValues.interval : null,
+            stripeProductId: formValues.fund,
+            notes: formValues.notes,
+            isRecurring
           }
 
           const response = await fetchJson(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/checkouts/${
-              isRecurring ? 'recurring' : 'one-time'
-            }`,
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/checkout`,
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -192,9 +214,9 @@ export const CheckoutForm = (props: CheckoutFormProps) => {
                       >
                         Choose a Fund
                       </option>
-                      {fundOptions.map((option, index) => (
-                        <option key={index} value={option}>
-                          {option}
+                      {fundOptions?.products?.map((fund, index) => (
+                        <option key={index} value={fund.stripeId}>
+                          {fund.productName.split('|')[0]}
                         </option>
                       ))}
                     </Field>
