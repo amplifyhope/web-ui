@@ -1,9 +1,10 @@
 export type DonationRequestBody = {
   email: string
   amount: number
-  interval?: IntervalOptions
-  fund: FundOptions
+  interval: IntervalOptions | null
+  stripeProductId: string
   notes?: string
+  isRecurring: boolean
 }
 
 export type LoginWithEmailRequestBody = {
@@ -14,10 +15,6 @@ export enum IntervalOptions {
   month = 'month',
   quarter = 'quarter',
   year = 'year'
-}
-
-export enum FundOptions {
-  general = 'general'
 }
 
 export type Donation = {
