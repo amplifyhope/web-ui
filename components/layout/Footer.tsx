@@ -27,7 +27,7 @@ export const Footer = () => {
           className='md:h-12 md:mb-4'
         />
         <div className='text-xs text-center text-white md:text-left'>
-          <p>1577 N. Linder Rd. #219 Kuna, ID 83634</p>
+          <p>7635 W 148th St #308 Apple Valley, MN 55124</p>
           <p>©2024 Amplify Hope is a US 501(c)(3) non-profit,</p>
           <p>EIN 87-2385986</p>
         </div>
