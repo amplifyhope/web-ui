@@ -28,7 +28,10 @@ export const Footer = () => {
         />
         <div className='text-xs text-center text-white md:text-left'>
           <p>7635 W 148th St #308 Apple Valley, MN 55124</p>
-          <p>©2024 Amplify Hope is a US 501(c)(3) non-profit,</p>
+          <p>
+            ©{new Date().getFullYear()} Amplify Hope is a US 501(c)(3)
+            non-profit,
+          </p>
           <p>EIN 87-2385986</p>
         </div>
       </div>
