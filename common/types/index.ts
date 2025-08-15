@@ -38,3 +38,8 @@ export type User = {
   country: string | null
   main_phone: string | null
 }
+
+export type ContactProps = {
+  name: string
+  title: string
+}

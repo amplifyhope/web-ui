@@ -1,5 +1,6 @@
 import { useRouter, usePathname } from 'next/navigation'
 import { Button } from 'components'
+import Link from 'next/link'
 
 export const Footer = () => {
   const router = useRouter()
@@ -20,6 +21,10 @@ export const Footer = () => {
       ) : (
         <div className='md:w-auto md:mb-0'></div>
       )}
+      <div className='text-white w-8/12 hidden md:inline'>
+        <p className='font-bold text-xl'>About</p>
+        <Link href='/who-we-are'>Who We Are</Link>
+      </div>
       <div className='w-10/12 md:w-auto'>
         <img
           src='/images/logo-linear-white.svg'
