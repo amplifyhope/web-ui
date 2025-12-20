@@ -30,7 +30,8 @@ export default tsEslint.config(
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
       '@typescript-eslint/ban-ts-comment': 'off',
-      '@next/next/no-img-element': 'off'
+      '@next/next/no-img-element': 'off',
+      '@typescript-eslint/triple-slash-reference': 'off'
     }
   }
 )
