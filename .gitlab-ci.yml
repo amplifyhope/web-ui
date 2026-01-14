@@ -68,12 +68,12 @@ deploy:staging:
   script:
     - ssh $EC2_USER@$EC2_HOST "
       echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin;
-      docker pull agiannellah/ah-web-ui:latest-staging;
+      docker pull agiannellah/ah-web-ui:staging-${CI_COMMIT_SHORT_SHA};
       docker stop amplify-hope-front-end;
-      echo 'amplify-hope-api container stopped';
+      echo 'amplify-hope-ui container stopped';
       docker rm amplify-hope-front-end;
-      echo 'amplify-hope-api container removed';
-      docker run --name amplify-hope-front-end -p 3000:3000 -d agiannellah/ah-web-ui:latest-staging;"
+      echo 'amplify-hope-ui container removed';
+      docker run --name amplify-hope-front-end -p 3000:3000 -d agiannellah/ah-web-ui:staging-${CI_COMMIT_SHORT_SHA};"
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
 
@@ -118,11 +118,11 @@ deploy:production:
   script:
     - ssh $EC2_USER@$EC2_HOST "
       echo $DOCKER_HUB_TOKEN | docker login -u agiannellah --password-stdin;
-      docker pull agiannellah/ah-web-ui:latest-prod;
+      docker pull agiannellah/ah-web-ui:prod-${CI_COMMIT_SHORT_SHA}
       docker stop amplify-hope-front-end;
-      echo 'amplify-hope-api container stopped';
+      echo 'amplify-hope-ui container stopped';
       docker rm amplify-hope-front-end;
-      echo 'amplify-hope-api container removed';
-      docker run --name amplify-hope-front-end -p 3000:3000 -d agiannellah/ah-web-ui:latest-prod;"
+      echo 'amplify-hope-ui container removed';
+      docker run --name amplify-hope-front-end -p 3000:3000 -d agiannellah/ah-web-ui:prod-${CI_COMMIT_SHORT_SHA};"
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
